@@ -14,7 +14,7 @@ func RegisterHandler(c *gin.Context) {
 	if err := c.ShouldBindJSON(user); err != nil {
 		zap.L().Error("ShouldBindJSON(user) err...", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
-			"code": "404",
+			"code": 404,
 			"msg":  err,
 		})
 		return
@@ -24,14 +24,14 @@ func RegisterHandler(c *gin.Context) {
 	if err != nil {
 		zap.L().Error("logic.Register(user) err...", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
-			"code": "404",
+			"code": 404,
 			"msg":  err,
 		})
 		return
 	}
 	//返回响应
 	c.JSON(http.StatusOK, gin.H{
-		"code":  "200",
+		"code":  200,
 		"msg":   "ok",
 		"token": token,
 	})
@@ -44,7 +44,7 @@ func LoginHandler(c *gin.Context) {
 	if err != nil {
 		zap.L().Error("LoginHandler ShouldBindJSON(data) err...", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
-			"code": "404",
+			"code": 404,
 			"msg":  err,
 		})
 		return
@@ -54,14 +54,14 @@ func LoginHandler(c *gin.Context) {
 	if err != nil {
 		zap.L().Error("logic.Login(data) err...", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
-			"code": "404",
+			"code": 404,
 			"msg":  err,
 		})
 		return
 	}
 	//返回响应
 	c.JSON(http.StatusOK, gin.H{
-		"code":  "200",
+		"code":  200,
 		"msg":   "ok",
 		"token": token,
 	})
@@ -74,7 +74,7 @@ func GetUserInfo(c *gin.Context) {
 	if err != nil {
 		zap.L().Error("GetCurrentUser(c) err..", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
-			"code": "404",
+			"code": 404,
 			"msg":  err,
 		})
 		return
@@ -84,7 +84,7 @@ func GetUserInfo(c *gin.Context) {
 	if err != nil {
 		zap.L().Error("logic.GetUserInfo(username) err..", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
-			"code": "404",
+			"code": 404,
 			"msg":  err,
 		})
 		return
@@ -92,7 +92,7 @@ func GetUserInfo(c *gin.Context) {
 	//转换结果为json返回
 	userjson, err := json.Marshal(user)
 	c.JSON(http.StatusOK, gin.H{
-		"code": "200",
+		"code": 200,
 		"msg":  "ok",
 		"info": userjson,
 	})
@@ -105,7 +105,7 @@ func PutUserInfo(c *gin.Context) {
 	if err != nil {
 		zap.L().Error("GetCurrentUser(UserInfo) err..", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
-			"code": "404",
+			"code": 404,
 			"msg":  err,
 		})
 		return
@@ -113,7 +113,7 @@ func PutUserInfo(c *gin.Context) {
 	name, err := GetCurrentUser(c)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			"code": "404",
+			"code": 404,
 			"msg":  err,
 		})
 		return
@@ -122,13 +122,13 @@ func PutUserInfo(c *gin.Context) {
 	err = logic.PutUserInfo(UserInfo)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			"code": "404",
+			"code": 404,
 			"msg":  err,
 		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"code": "200",
+		"code": 200,
 		"msg":  "ok",
 	})
 	return

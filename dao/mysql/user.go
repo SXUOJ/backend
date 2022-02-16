@@ -92,7 +92,7 @@ func GetUserInfo(username string) (userinfo *models.User, err error) {
 
 func PutUserInfo(user *models.User) error {
 	sqlStr := "update user set truename=?,email=?,school=?,where user_name = ?"
-	ret, err := db.Exec(sqlStr, user.Truename, user.Email, user.School, 6)
+	ret, err := db.Exec(sqlStr, user.Truename, user.Email, user.School, user.Username)
 	if err != nil {
 		zap.L().Error("update failed, err:", zap.Error(err))
 		return err
