@@ -16,7 +16,7 @@ func GetQuestionDetail(Qid string) (que *models.Question, err error) {
 	return que, nil
 }
 
-func GetQuestionList(page int, amount int) (data []*models.UserInMysql, err error) {
+func GetQuestionList(page int, amount int) (data []*models.QueList, err error) {
 	//查库
 	data, err = mysql.GetQuestionList(page, amount)
 	if err != nil {

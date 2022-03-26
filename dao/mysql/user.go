@@ -6,7 +6,6 @@ import (
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 	"web_app/models"
-	"web_app/pkg/uuid"
 )
 
 const secret = "jiaomaster"
@@ -59,7 +58,7 @@ func Login(user *models.UserSignUp) error {
 		return errors.New("账号不存在")
 	}
 	//校验密码
-	sqlStr := "select password from user where user_name=?"
+	sqlStr := "select password from user where username=?"
 	var Rpassword string
 	err = db.Get(&Rpassword, sqlStr, user.Username)
 	if err != nil {
@@ -67,7 +66,7 @@ func Login(user *models.UserSignUp) error {
 		return err
 	}
 	//解密当前密码
-	Npassword, err := uuid.ParseUuid(user.Password)
+	Npassword := encryptPassword(user.Password)
 	if err != nil {
 		zap.L().Error("uuid.ParseUuid err...", zap.Error(err))
 		return err
@@ -81,7 +80,8 @@ func Login(user *models.UserSignUp) error {
 }
 
 func GetUserInfo(username string) (userinfo *models.User, err error) {
-	sqlStr := `select user_id, user_name, truename, email, school, score from user where username = ?`
+	userinfo = new(models.User)
+	sqlStr := `select user_id, username, truename, email, school, score from user where username = ?`
 	err = db.Get(userinfo, sqlStr, username)
 	if err != nil {
 		zap.L().Error("db.Get(userinfo,sqlStr,username) err", zap.Error(err))
@@ -91,7 +91,7 @@ func GetUserInfo(username string) (userinfo *models.User, err error) {
 }
 
 func PutUserInfo(user *models.User) error {
-	sqlStr := "update user set truename=?,email=?,school=?,where user_name = ?"
+	sqlStr := "update user set truename=?,email=?,school=? where username = ?"
 	ret, err := db.Exec(sqlStr, user.Truename, user.Email, user.School, user.Username)
 	if err != nil {
 		zap.L().Error("update failed, err:", zap.Error(err))

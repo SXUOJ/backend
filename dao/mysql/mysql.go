@@ -8,6 +8,8 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/jmoiron/sqlx"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var db *sqlx.DB

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"web_app/dao/mysql"
 	"web_app/logger"
 	"web_app/routes"
 	"web_app/settings"
@@ -10,8 +11,6 @@ import (
 
 	"go.uber.org/zap"
 )
-
-//Go Web开发手脚架
 
 func main() {
 	//1、加载配置
@@ -26,12 +25,12 @@ func main() {
 	}
 	defer zap.L().Sync()
 	zap.L().Debug("zap init sucessed...")
-	////3.MySQL
-	//if err := mysql.Init(); err != nil {
-	//	fmt.Printf("mysql.Init() err:%v", err)
-	//	return
-	//}
-	//defer mysql.Close()
+	//3.MySQL
+	if err := mysql.Init(); err != nil {
+		fmt.Printf("mysql.Init() err:%v", err)
+		return
+	}
+	defer mysql.Close()
 	//4.注册路由
 	r := routes.Setup()
 	//5.启动服务

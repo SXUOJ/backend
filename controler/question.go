@@ -37,15 +37,15 @@ func GetQuestionDetail(c *gin.Context) {
 
 func GetQuestionList(c *gin.Context) {
 	//绑定参数
-	page := c.Param("page")
-	amount := c.Param("amount")
+	page := c.Query("page")
+	amount := c.Query("amount")
 	Page, err := strconv.Atoi(page)
 	Amount, err := strconv.Atoi(amount)
 	if err != nil {
 		zap.L().Error(" GetQuestionList 转化失败", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
 			"code": 404,
-			"msg":  err,
+			"msg":  zap.Error(err),
 		})
 		return
 	}
@@ -80,7 +80,7 @@ func PushQuestionJudge(c *gin.Context) {
 	}
 	jsonBack := new(bytes.Buffer)
 	json.NewEncoder(jsonBack).Encode(*code)
-	rsps, err := http.Post("https://example.com/api/question/push_question_judge/", "json", jsonBack)
+	rsps, err := http.Post("http://101.42.237.62:9000/submit", "json", jsonBack)
 	if err != nil {
 		zap.L().Error("http.Post err..", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
@@ -98,7 +98,21 @@ func PushQuestionJudge(c *gin.Context) {
 		})
 		return
 	}
+	var bodyMap map[string]interface{}
+	json.Unmarshal(body, &bodyMap)
+	//code.CodeState = bodyMap["result"].(string)
+	//err = mysql.SaveCode(code)
+	//if err != nil {
+	//	c.JSON(http.StatusOK, gin.H{
+	//		"code": 404,
+	//		"msg":  err,
+	//	})
+	//	return
+	//}
 	//返回响应
-	c.JSON(http.StatusOK, body)
+	c.JSON(http.StatusOK, gin.H{
+		"code":   200,
+		"result": bodyMap["result"],
+	})
 	return
 }

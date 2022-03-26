@@ -1,7 +1,6 @@
 package controler
 
 import (
-	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"net/http"
@@ -25,7 +24,7 @@ func RegisterHandler(c *gin.Context) {
 		zap.L().Error("logic.Register(user) err...", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
 			"code": 404,
-			"msg":  err,
+			"msg":  zap.Error(err),
 		})
 		return
 	}
@@ -90,11 +89,11 @@ func GetUserInfo(c *gin.Context) {
 		return
 	}
 	//转换结果为json返回
-	userjson, err := json.Marshal(user)
+	//userjson, err := json.Marshal(user)
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
 		"msg":  "ok",
-		"info": userjson,
+		"info": user,
 	})
 	return
 }

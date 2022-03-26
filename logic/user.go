@@ -25,7 +25,7 @@ func Register(user *models.UserSignUp) (string, error) {
 	if err != nil {
 		return "nil", err
 	}
-	return token, err
+	return token, nil
 }
 
 func Login(user *models.UserSignUp) (string, error) {
@@ -42,7 +42,7 @@ func Login(user *models.UserSignUp) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return token, err
+	return token, nil
 }
 
 func GetUserInfo(username string) (userinfo *models.User, err error) {

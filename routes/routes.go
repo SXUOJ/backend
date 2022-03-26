@@ -28,9 +28,8 @@ func Setup() *gin.Engine {
 	//题目路由组
 	quegroup := apigroup.Group("/question")
 	quegroup.POST("/get_question_detail/:id", controler.GetQuestionDetail)
-	quegroup.POST("/get_question_list/:page/:amount", controler.GetQuestionList)
+	quegroup.POST("/get_question_list", controler.GetQuestionList)
 	quegroup.POST("/push_question_judge", controler.PushQuestionJudge)
 
-	r.Run()
 	return r
 }

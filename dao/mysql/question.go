@@ -6,7 +6,7 @@ func GetQuestionDetail(Qid string) (*models.Question, error) {
 	//查库
 	//sql语句
 	sqlStr := "select title from question where id=?"
-	sqlStr2 := "select description, input, output ,sampleInput ,source from question where id=?"
+	sqlStr2 := "select description, input, output,sampleOutput ,sampleInput ,source from question where id=?"
 	sqlStr3 := "select id, timeLimit, memLimit ,ioMode ,createBy ,level ,tags from question where id=?"
 	sqlStr4 := "select ac, wa from question where id=?"
 	//数据分类
@@ -32,14 +32,14 @@ func GetQuestionDetail(Qid string) (*models.Question, error) {
 	return que, nil
 }
 
-func GetQuestionList(page int, amount int) ([]*models.UserInMysql, error) {
+func GetQuestionList(page int, amount int) ([]*models.QueList, error) {
 	sqlStr := `select
-	id, title, tags
+	id, title, tags, que_id
 	from question
-    ORDER BY id
+    ORDER BY que_id
 	limit ?,?
 	`
-	var data []*models.UserInMysql
+	var data []*models.QueList
 	err := db.Select(&data, sqlStr, (page-1)*amount, amount)
 	if err != nil {
 		return nil, err

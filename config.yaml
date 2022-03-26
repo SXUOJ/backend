@@ -16,10 +16,10 @@ log:
 
 mysql:
   host: "127.0.0.1"
-  port: 13306
+  port: 3306
   user: "root"
   password: "root1234"
-  dbname: "sql_demo"
+  dbname: "scond"
   max_open_conns: 20
   max_idel_conns: 10
 

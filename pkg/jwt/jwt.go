@@ -3,7 +3,6 @@ package jwt
 import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/pkg/errors"
-	"github.com/spf13/viper"
 	"time"
 )
 
@@ -12,7 +11,7 @@ type MyClaims struct {
 	jwt.StandardClaims
 }
 
-var TokenExpireDuration = time.Hour * viper.GetDuration("app.TokenExpireDuration")
+var TokenExpireDuration = time.Hour * 3600
 
 var MySecret = []byte("sxuoj")
 
