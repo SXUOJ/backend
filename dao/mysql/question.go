@@ -2,6 +2,7 @@ package mysql
 
 import "web_app/models"
 
+// 通过问题id获得问题详细
 func GetQuestionDetail(Qid string) (*models.Question, error) {
 	//查库
 	//sql语句
@@ -32,6 +33,7 @@ func GetQuestionDetail(Qid string) (*models.Question, error) {
 	return que, nil
 }
 
+// 获取问题列表 page是页号 amount是每页数量
 func GetQuestionList(page int, amount int) ([]*models.Question, error) {
 	sqlStr := `select
 	id, title, tags, que_id
