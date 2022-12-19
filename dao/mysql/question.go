@@ -33,7 +33,7 @@ func GetQuestionDetail(Qid string) (*models.Question, error) {
 	return que, nil
 }
 
-// 获取问题列表 page是页号 amount是每页数量
+// 获取问题列表 page是页号 amount是每页数量 并且 获取每个题目是否ac
 func GetQuestionList(page int, amount int) ([]*models.Question, error) {
 	sqlStr := `select
 	id, title, tags, que_id
