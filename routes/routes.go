@@ -23,7 +23,7 @@ func Setup() *gin.Engine {
 	//用户路由组
 	usergroup := apigroup.Group("/user")
 	usergroup.Use(middleware.JWTAuthMiddleware())
-	usergroup.POST("/get_user_info", controler.GetUserInfo)
+	usergroup.GET("/get_user_info", controler.GetUserInfo)
 	usergroup.PUT("/put_user_info", controler.PutUserInfo)
 
 	//题目路由组
@@ -31,6 +31,11 @@ func Setup() *gin.Engine {
 	quegroup.POST("/get/:question_id", controler.GetQuestionDetail)
 	quegroup.POST("/get_list", controler.GetQuestionList)
 	quegroup.POST("/submit", controler.PushQuestionJudge)
+
+	//提交状态
+	stugroup := apigroup.Group("/status")
+	stugroup.GET("/get_list_by_question_id", controler.GetStatusList)
+	stugroup.GET("/get_status_by_submit_id", controler.GetStatusDetail)
 
 	// 文件上传组
 	{
