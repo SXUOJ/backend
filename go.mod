@@ -15,7 +15,7 @@ require (
 
 require (
 	github.com/BurntSushi/toml v1.0.0 // indirect
-	github.com/go-sql-driver/mysql v1.6.0 // indirect
+	github.com/go-sql-driver/mysql v1.6.0
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/gomega v1.18.1 // indirect
 	github.com/pkg/errors v0.8.1

@@ -1,11 +1,8 @@
 package controler
 
 import (
-	"bytes"
-	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 	"web_app/logic"
@@ -14,7 +11,7 @@ import (
 
 func GetQuestionDetail(c *gin.Context) {
 	//绑定参数
-	Qid := c.Param("id")
+	Qid := c.Param("question_id")
 	//业务
 	que := new(models.Question)
 	var err error
@@ -68,51 +65,5 @@ func GetQuestionList(c *gin.Context) {
 }
 
 func PushQuestionJudge(c *gin.Context) {
-	code := new(models.Code)
-	err := c.ShouldBindJSON(code)
-	if err != nil {
-		zap.L().Error("c.ShouldBindJSON(code) err..", zap.Error(err))
-		c.JSON(http.StatusOK, gin.H{
-			"code": 404,
-			"msg":  err,
-		})
-		return
-	}
-	jsonBack := new(bytes.Buffer)
-	json.NewEncoder(jsonBack).Encode(*code)
-	rsps, err := http.Post("http://101.42.237.62:9000/submit", "json", jsonBack)
-	if err != nil {
-		zap.L().Error("http.Post err..", zap.Error(err))
-		c.JSON(http.StatusOK, gin.H{
-			"code": 404,
-			"msg":  err,
-		})
-		return
-	}
-	body, err := ioutil.ReadAll(rsps.Body)
-	if err != nil {
-		zap.L().Error("ioutil.ReadAll err..", zap.Error(err))
-		c.JSON(http.StatusOK, gin.H{
-			"code": 404,
-			"msg":  err,
-		})
-		return
-	}
-	var bodyMap map[string]interface{}
-	json.Unmarshal(body, &bodyMap)
-	//code.CodeState = bodyMap["result"].(string)
-	//err = mysql.SaveCode(code)
-	//if err != nil {
-	//	c.JSON(http.StatusOK, gin.H{
-	//		"code": 404,
-	//		"msg":  err,
-	//	})
-	//	return
-	//}
-	//返回响应
-	c.JSON(http.StatusOK, gin.H{
-		"code":   200,
-		"result": bodyMap["result"],
-	})
-	return
+
 }

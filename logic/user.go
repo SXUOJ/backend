@@ -21,7 +21,7 @@ func Register(user *models.UserSignUp) (string, error) {
 		return "nil", err
 	}
 	//生成token
-	token, err := jwt.GenToken(user.Username)
+	token, err := jwt.GenToken(userId, user.Username)
 	if err != nil {
 		return "nil", err
 	}
@@ -30,7 +30,7 @@ func Register(user *models.UserSignUp) (string, error) {
 
 func Login(user *models.UserSignUp) (string, error) {
 	//操作数据库校验登陆
-	err := mysql.Login(user)
+	userid, err := mysql.Login(user)
 	if err != nil {
 		if err.Error() == "密码错误" {
 			return "", errors.New("密码错误")
@@ -38,7 +38,7 @@ func Login(user *models.UserSignUp) (string, error) {
 		return "", err
 	}
 	//生成token
-	token, err := jwt.GenToken(user.Username)
+	token, err := jwt.GenToken(userid, user.Username)
 	if err != nil {
 		return "", err
 	}

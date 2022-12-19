@@ -17,19 +17,19 @@ func Setup() *gin.Engine {
 	})
 
 	apigroup := r.Group("/api")
-	apigroup.POST("/register", controler.RegisterHandler)
-	apigroup.POST("/login", controler.LoginHandler)
+	apigroup.POST("/user/register", controler.RegisterHandler)
+	apigroup.POST("/user/login", controler.LoginHandler)
 	//用户路由组
 	usergroup := apigroup.Group("/user")
 	usergroup.Use(middleware.JWTAuthMiddleware())
 	usergroup.POST("/get_user_info", controler.GetUserInfo)
-	usergroup.POST("/put_user_info", controler.PutUserInfo)
+	usergroup.PUT("/put_user_info", controler.PutUserInfo)
 
 	//题目路由组
 	quegroup := apigroup.Group("/question")
-	quegroup.POST("/get_question_detail/:id", controler.GetQuestionDetail)
-	quegroup.POST("/get_question_list", controler.GetQuestionList)
-	quegroup.POST("/push_question_judge", controler.PushQuestionJudge)
+	quegroup.POST("/get/:question_id", controler.GetQuestionDetail)
+	quegroup.POST("/get_list", controler.GetQuestionList)
+	quegroup.POST("/submit", controler.PushQuestionJudge)
 
 	return r
 }
