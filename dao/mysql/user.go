@@ -20,6 +20,7 @@ func CheckUserExist(UserName string) (bool, error) {
 	return count > 0, nil
 }
 
+// 对密码加密
 func encryptPassword(oPassword string) string {
 	h := md5.New()
 	h.Write([]byte(secret))
@@ -79,6 +80,7 @@ func Login(user *models.UserSignUp) (string, error) {
 	return user.UserId, nil
 }
 
+// 获取用户信息
 func GetUserInfo(username string) (userinfo *models.User, err error) {
 	userinfo = new(models.User)
 	sqlStr := `select user_id, username, truename, email, school, score from user where username = ?`
@@ -90,6 +92,7 @@ func GetUserInfo(username string) (userinfo *models.User, err error) {
 	return userinfo, nil
 }
 
+// 修改用户信息
 func PutUserInfo(user *models.User) error {
 	sqlStr := "update user set truename=?,email=?,school=? where username = ?"
 	ret, err := db.Exec(sqlStr, user.Truename, user.Email, user.School, user.Username)
