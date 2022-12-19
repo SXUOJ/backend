@@ -2,13 +2,19 @@ package models
 
 // Question
 type Question struct {
-	Context     Empty       `json:"context"`
+	Context     Context     `json:"context"`
 	Information Information `json:"information"`
 	Limit       Limit       `json:"limit"`
 	Title       string      `json:"title"` // 标题
 }
 
-type Empty struct {
+type QuestionList struct {
+	Title  string `json:"title"` // 标题
+	ID     string `json:"id"`
+	Status string `json:"status"`
+}
+
+type Context struct {
 	Description       string `json:"description"` // 描述
 	ImgPath           string `json:"img_path"`
 	Input             string `json:"input"`               // 输入描述

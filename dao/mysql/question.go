@@ -13,7 +13,7 @@ func GetQuestionDetail(Qid string) (*models.Question, error) {
 	title := ""
 	context := new(models.Context)
 	info := new(models.Information)
-	static := new(models.Statistic)
+	static := new(models.Limit)
 	//查询
 	err := db.Get(&title, sqlStr, Qid)
 	err = db.Get(context, sqlStr2, Qid)
@@ -25,21 +25,21 @@ func GetQuestionDetail(Qid string) (*models.Question, error) {
 	//拼接数据
 	que := new(models.Question)
 	que.Title = title
-	que.Context = context
-	que.Information = info
-	que.Statistic = static
+	que.Context = *context
+	que.Information = *info
+	que.Limit = *static
 	//返回
 	return que, nil
 }
 
-func GetQuestionList(page int, amount int) ([]*models.QueList, error) {
+func GetQuestionList(page int, amount int) ([]*models.Question, error) {
 	sqlStr := `select
 	id, title, tags, que_id
 	from question
     ORDER BY que_id
 	limit ?,?
 	`
-	var data []*models.QueList
+	var data []*models.Question
 	err := db.Select(&data, sqlStr, (page-1)*amount, amount)
 	if err != nil {
 		return nil, err

@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"web_app/controler"
 	"web_app/logger"
+	"web_app/logic"
 	"web_app/middleware"
 
 	"github.com/gin-gonic/gin"
@@ -31,5 +32,17 @@ func Setup() *gin.Engine {
 	quegroup.POST("/get_list", controler.GetQuestionList)
 	quegroup.POST("/submit", controler.PushQuestionJudge)
 
+	// 文件上传组
+	{
+		apigroup.POST("/admin/upload/image/:name", func(context *gin.Context) {
+			logic.Handler(context.Writer, context.Request)
+		})
+		apigroup.GET("/admin/upload/image/:name", func(context *gin.Context) {
+			logic.Handler(context.Writer, context.Request)
+		})
+		apigroup.DELETE("/admin/upload/image/:imgname", func(context *gin.Context) {
+			logic.Handler(context.Writer, context.Request)
+		})
+	}
 	return r
 }
