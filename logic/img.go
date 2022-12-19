@@ -54,7 +54,7 @@ func Put(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	id, _ := uuid.Getuuid()
-	exten, _ := getContentType(strings.Split(r.URL.EscapedPath(), "/")[2])
+	exten, _ := getContentType(strings.Split(r.URL.EscapedPath(), "/")[5])
 	fmt.Println(id, exten)
 	//log.Println(r.URL.EscapedPath())
 	//C:\Users\Administrator\go\src\awesomeProject\test_file
@@ -81,14 +81,14 @@ func Put(w http.ResponseWriter, r *http.Request) {
 			io.Copy(f, handle)
 			fmt.Printf("successful uploaded,fileName=%s,fileSize=%.2f MB,savePath=%s \n", id+"."+exten, float64(contentLen)/1024/1024, f.Name())
 
-			w.Write([]byte("http://" + viper.GetString("app.server") + ":" + viper.GetString("app.port") + "/objects/" + id + "." + exten))
+			w.Write([]byte("http://" + viper.GetString("app.server") + ":" + viper.GetString("app.port") + "/api/admin/upload/image/" + id + "." + exten))
 		}
 	}
 }
 
 func Get(w http.ResponseWriter, r *http.Request) {
 
-	f, e := os.Open("./file" + "/img/" + strings.Split(r.URL.EscapedPath(), "/")[2])
+	f, e := os.Open("./file" + "/img/" + strings.Split(r.URL.EscapedPath(), "/")[5])
 
 	if e != nil {
 		log.Println(e)
@@ -130,7 +130,7 @@ func getContentType(fileName string) (extension, contentType string) {
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
-	e := os.Remove("./file" + "/img/" + strings.Split(r.URL.EscapedPath(), "/")[2])
+	e := os.Remove("./file" + "/img/" + strings.Split(r.URL.EscapedPath(), "/")[5])
 	if e != nil {
 		log.Println(e)
 	}

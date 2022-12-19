@@ -43,6 +43,9 @@ func Setup() *gin.Engine {
 		apigroup.DELETE("/admin/upload/image/:imgname", func(context *gin.Context) {
 			logic.Handler(context.Writer, context.Request)
 		})
+		apigroup.POST("/admin/upload/sample", func(context *gin.Context) {
+			logic.SampleHandler(context.Writer, context.Request)
+		})
 	}
 	return r
 }

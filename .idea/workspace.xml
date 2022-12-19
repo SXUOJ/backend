@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93d297bf-2190-4730-9056-e24d01aea18d" name="Changes" comment="2.0">
-      <change afterPath="$PROJECT_DIR$/logic/sample.go" afterDir="false" />
+    <list default="true" id="93d297bf-2190-4730-9056-e24d01aea18d" name="Changes" comment="imgUpload">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/mysql/code.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/mysql/code.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/mysql/question.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/mysql/question.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logic/img.go" beforeDir="false" afterPath="$PROJECT_DIR$/logic/img.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic/question.go" beforeDir="false" afterPath="$PROJECT_DIR$/logic/question.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/question.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/question.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logic/sample.go" beforeDir="false" afterPath="$PROJECT_DIR$/logic/sample.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/routes/routes.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -96,7 +91,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update" />
     <MESSAGE value="2.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="2.0" />
+    <MESSAGE value="imgUpload" />
+    <option name="LAST_COMMIT_MESSAGE" value="imgUpload" />
   </component>
   <component name="VgoProject">
     <environment>
