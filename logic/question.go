@@ -25,3 +25,15 @@ func GetQuestionList(page int, amount int) (data []*models.Question, err error) 
 	}
 	return data, nil
 }
+
+func CreateQuestion(que models.Question) error {
+	return nil
+}
+
+func ChangeQuestion(qid string) error {
+	return nil
+}
+
+func DelQuestion(qid string) error {
+	return nil
+}

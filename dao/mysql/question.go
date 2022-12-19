@@ -14,12 +14,12 @@ func GetQuestionDetail(Qid string) (*models.Question, error) {
 	title := ""
 	context := new(models.Context)
 	info := new(models.Information)
-	static := new(models.Limit)
+	limit := new(models.Limit)
 	//查询
 	err := db.Get(&title, sqlStr, Qid)
 	err = db.Get(context, sqlStr2, Qid)
 	err = db.Get(info, sqlStr3, Qid)
-	err = db.Get(static, sqlStr4, Qid)
+	err = db.Get(limit, sqlStr4, Qid)
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func GetQuestionDetail(Qid string) (*models.Question, error) {
 	que.Title = title
 	que.Context = *context
 	que.Information = *info
-	que.Limit = *static
+	que.Limit = *limit
 	//返回
 	return que, nil
 }
@@ -47,4 +47,19 @@ func GetQuestionList(page int, amount int) ([]*models.Question, error) {
 		return nil, err
 	}
 	return data, nil
+}
+
+// 插入问题
+func InsertQuestion(que models.Question) error {
+	return nil
+}
+
+// 根据问题id修改问题
+func UpdateQuestion(qid string) error {
+	return nil
+}
+
+// 根据问题id删除问题
+func DeleteQuestion(qid string) error {
+	return nil
 }

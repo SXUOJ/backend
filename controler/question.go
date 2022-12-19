@@ -67,3 +67,15 @@ func GetQuestionList(c *gin.Context) {
 func PushQuestionJudge(c *gin.Context) {
 
 }
+
+func CreateQuestion(c *gin.Context) {
+
+}
+
+func ChangeQuestion(c *gin.Context) {
+
+}
+
+func DelQuestion(c *gin.Context) {
+
+}

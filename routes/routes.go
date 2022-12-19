@@ -28,9 +28,15 @@ func Setup() *gin.Engine {
 
 	//题目路由组
 	quegroup := apigroup.Group("/question")
-	quegroup.POST("/get/:question_id", controler.GetQuestionDetail)
-	quegroup.POST("/get_list", controler.GetQuestionList)
+	quegroup.GET("/get/:question_id", controler.GetQuestionDetail)
+	quegroup.GET("/get_list", controler.GetQuestionList)
 	quegroup.POST("/submit", controler.PushQuestionJudge)
+
+	//管理员组
+	admingroup := apigroup.Group("/admin")
+	admingroup.POST("/question/create", controler.CreateQuestion)
+	admingroup.PUT("/question/change", controler.ChangeQuestion)
+	admingroup.DELETE("/question/delete", controler.DelQuestion)
 
 	//提交状态
 	stugroup := apigroup.Group("/status")
