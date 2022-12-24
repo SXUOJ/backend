@@ -69,13 +69,70 @@ func PushQuestionJudge(c *gin.Context) {
 }
 
 func CreateQuestion(c *gin.Context) {
-
+	que := new(models.Question)
+	err := c.ShouldBindJSON(que)
+	if err != nil {
+		zap.L().Error(" CreateQuestion 转化失败", zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"code": 404,
+			"msg":  err.Error(),
+		})
+		return
+	}
+	err = logic.CreateQuestion(*que)
+	if err != nil {
+		zap.L().Error("logic.CreateQuestion err", zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"code": 404,
+			"msg":  err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "ok",
+	})
 }
 
 func ChangeQuestion(c *gin.Context) {
-
+	que := new(models.Question)
+	err := c.ShouldBindJSON(que)
+	if err != nil {
+		zap.L().Error("changeQuestion 转化失败", zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"code": 404,
+			"msg":  err.Error(),
+		})
+		return
+	}
+	err = logic.ChangeQuestion(que.Information.QuestionID, *que)
+	if err != nil {
+		zap.L().Error("logic.ChangeQuestion err：", zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"code": 404,
+			"msg":  err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "ok",
+	})
 }
 
 func DelQuestion(c *gin.Context) {
-
+	qid := c.Param("id")
+	err := logic.DelQuestion(qid)
+	if err != nil {
+		zap.L().Error("logic.DelQuestion err：", zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"code": 404,
+			"msg":  err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "ok",
+	})
 }

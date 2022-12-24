@@ -27,13 +27,16 @@ func GetQuestionList(page int, amount int) (data []*models.Question, err error) 
 }
 
 func CreateQuestion(que models.Question) error {
-	return nil
+	err := mysql.InsertQuestion(que)
+	return err
 }
 
-func ChangeQuestion(qid string) error {
-	return nil
+func ChangeQuestion(qid string, que models.Question) error {
+	err := mysql.UpdateQuestion(qid, que)
+	return err
 }
 
 func DelQuestion(qid string) error {
-	return nil
+	err := mysql.DeleteQuestion(qid)
+	return err
 }

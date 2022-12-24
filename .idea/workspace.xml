@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93d297bf-2190-4730-9056-e24d01aea18d" name="Changes" comment="user">
+    <list default="true" id="93d297bf-2190-4730-9056-e24d01aea18d" name="Changes" comment="que">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controler/question.go" beforeDir="false" afterPath="$PROJECT_DIR$/controler/question.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dao/mysql/question.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/mysql/question.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logic/question.go" beforeDir="false" afterPath="$PROJECT_DIR$/logic/question.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/routes/routes.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,6 +46,8 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
@@ -94,10 +97,13 @@
     <MESSAGE value="2.0" />
     <MESSAGE value="imgUpload" />
     <MESSAGE value="Add status" />
-    <MESSAGE value="question" />
     <MESSAGE value="routes" />
     <MESSAGE value="user" />
-    <option name="LAST_COMMIT_MESSAGE" value="user" />
+    <MESSAGE value="question" />
+    <MESSAGE value="." />
+    <MESSAGE value="ac" />
+    <MESSAGE value="que" />
+    <option name="LAST_COMMIT_MESSAGE" value="que" />
   </component>
   <component name="VgoProject">
     <environment>

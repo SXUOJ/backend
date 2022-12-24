@@ -54,8 +54,8 @@ func InsertQuestion(que models.Question) error {
 	return nil
 }
 
-// 根据问题id修改问题
-func UpdateQuestion(qid string) error {
+// 根据问题id,以及修改后的question修改问题
+func UpdateQuestion(qid string, que models.Question) error {
 	return nil
 }
 

@@ -6,9 +6,9 @@ type User struct {
 	Password  string `json:"password" db:"password"`
 	Usergroup string `json:"usergroup"db:"usergroup"`
 	Truename  string `json:"truename" db:"truename"`
-	Email     string `json:"email" db:"email"`
-	School    string `json:"school" db:"school"`
-	Score     string `json:"score" db:"score"`
+	Email     string `json:"email,omitempty" db:"email"`
+	School    string `json:"school,omitempty" db:"school"`
+	Score     string `json:"score,omitempty" db:"score"`
 }
 
 type UserSignUp struct {

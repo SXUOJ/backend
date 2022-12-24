@@ -36,7 +36,7 @@ func Setup() *gin.Engine {
 	admingroup := apigroup.Group("/admin")
 	admingroup.POST("/question/create", controler.CreateQuestion)
 	admingroup.PUT("/question/change", controler.ChangeQuestion)
-	admingroup.DELETE("/question/delete", controler.DelQuestion)
+	admingroup.DELETE("/question/delete/:id", controler.DelQuestion)
 
 	//提交状态
 	stugroup := apigroup.Group("/status")
