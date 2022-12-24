@@ -40,8 +40,8 @@ func Setup() *gin.Engine {
 
 	//提交状态
 	stugroup := apigroup.Group("/status")
-	stugroup.GET("/get_list_by_question_id", controler.GetStatusList)
-	stugroup.GET("/get_status_by_submit_id", controler.GetStatusDetail)
+	stugroup.GET("/get_list_by_question_id/:qid", controler.GetStatusList)
+	stugroup.GET("/get_status_by_submit_id/:submitId", controler.GetStatusDetail)
 
 	// 文件上传组
 	{
