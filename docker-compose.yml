@@ -1,0 +1,17 @@
+version: "3"
+services:
+   backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    # links:
+      # - mysql:mysql
+    # depends_on:
+      # - mysql
+    volumes:
+      - ./data/static:/static
+      - ./data/logs:/logs
+    ports:
+      - "0.0.0.0:8081:8081"
