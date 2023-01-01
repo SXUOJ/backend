@@ -28,3 +28,5 @@ redis:
   password: ""
   max_pool_size: 200
 
+grpc:
+  addr: ""

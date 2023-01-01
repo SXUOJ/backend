@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option go_package = "judger/pb";
+
+package judger;
+
+service Judger
+{
+	rpc Ping(PingRequest) returns (PongReply) { }
+	rpc Judge(JudgeRequest) returns (JudgeReply) { }
+}
+
+message PingRequest { }
+
+message PongReply
+{
+	string message = 1;
+}
+
+message JudgeRequest
+{
+	string type = 1;
+	string source = 2;
+	repeated string input = 3;
+	repeated string output = 4;
+	uint64 time_limit = 5;
+	uint64 memory_limit = 6;
+}
+
+message JudgeReply
+{
+	string message = 1;
+}
