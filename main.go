@@ -30,7 +30,7 @@ func main() {
 		fmt.Printf("mysql.Init() err:%v", err)
 		return
 	}
-	defer mysql.Close()
+	// defer mysql.Close()
 	//4.注册路由
 	r := routes.Setup()
 	//5.启动服务

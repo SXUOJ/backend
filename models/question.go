@@ -1,5 +1,12 @@
 package models
 
+import "gorm.io/gorm"
+
+type QuestionSql struct {
+	*gorm.Model
+	Question
+}
+
 // Question
 type Question struct {
 	Context     Context     `json:"context"`
@@ -27,10 +34,10 @@ type Context struct {
 }
 
 type Information struct {
-	Creator    string `json:"creator"`     // 创建者
-	Level      string `json:"level"`       // 等级
-	QuestionID string `json:"question_id"` // 问题ID
-	Tags       string `json:"tags"`        // 标签
+	Creator    string `json:"creator"`                               // 创建者
+	Level      string `json:"level"`                                 // 等级
+	QuestionID string `json:"question_id" gorm:"question_id;unique"` // 问题ID
+	Tags       string `json:"tags"`                                  // 标签
 }
 
 type Limit struct {
