@@ -1,15 +1,31 @@
 version: "3"
 services:
-   backend:
-    container_name: backend
+  postgres:
+    container_name: oj-postgres
+    image: postgres:14.1-alpine
+    restart: always
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=oj
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "0.0.0.0:5432:5432"
+
+  backend:
+    container_name: oj-server
+    image: oj-server:latest
     build:
       context: .
       dockerfile: Dockerfile
     restart: always
-    # links:
-      # - mysql:mysql
-    # depends_on:
-      # - mysql
+    links:
+      - postgres:postgres
+      # - redis:redis
+    depends_on:
+      - postgres
+      # - redis
     volumes:
       - ./data/static:/static
       - ./data/logs:/logs
