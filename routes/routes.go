@@ -2,11 +2,11 @@ package routes
 
 import (
 	"net/http"
-	"web_app/controler"
-	"web_app/logger"
-	"web_app/logic"
-	"web_app/middleware"
 
+	"github.com/SXUOJ/backend/controler"
+	"github.com/SXUOJ/backend/logger"
+	"github.com/SXUOJ/backend/logic"
+	"github.com/SXUOJ/backend/middleware"
 	"github.com/gin-gonic/gin"
 )
 

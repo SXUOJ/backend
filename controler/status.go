@@ -1,10 +1,11 @@
 package controler
 
 import (
+	"net/http"
+
+	"github.com/SXUOJ/backend/logic"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
-	"net/http"
-	"web_app/logic"
 )
 
 func GetStatusList(c *gin.Context) {

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 	"time"
-	"web_app/pb"
 
+	"github.com/SXUOJ/backend/pb"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"

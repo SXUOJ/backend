@@ -1,11 +1,12 @@
 package controler
 
 import (
+	"net/http"
+
+	"github.com/SXUOJ/backend/logic"
+	"github.com/SXUOJ/backend/models"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
-	"net/http"
-	"web_app/logic"
-	"web_app/models"
 )
 
 func RegisterHandler(c *gin.Context) {

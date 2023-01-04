@@ -1,10 +1,11 @@
 package middleware
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
-	"web_app/pkg/jwt"
+
+	"github.com/SXUOJ/backend/pkg/jwt"
+	"github.com/gin-gonic/gin"
 )
 
 // JWTAuthMiddleware 基于JWT的认证中间件

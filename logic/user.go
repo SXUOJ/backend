@@ -1,11 +1,11 @@
 package logic
 
 import (
+	"github.com/SXUOJ/backend/dao"
+	"github.com/SXUOJ/backend/models"
+	"github.com/SXUOJ/backend/pkg/jwt"
+	"github.com/SXUOJ/backend/pkg/uuid"
 	"github.com/pkg/errors"
-	"web_app/dao/mysql"
-	"web_app/models"
-	"web_app/pkg/jwt"
-	"web_app/pkg/uuid"
 )
 
 func Register(user *models.UserSignUp) (string, error) {
@@ -16,7 +16,7 @@ func Register(user *models.UserSignUp) (string, error) {
 	newuser.Username = user.Username
 	newuser.Password = user.Password
 	//入库
-	ok, err := mysql.Register(newuser)
+	ok, err := dao.Register(newuser)
 	if !ok {
 		return "nil", err
 	}
@@ -30,7 +30,7 @@ func Register(user *models.UserSignUp) (string, error) {
 
 func Login(user *models.UserSignUp) (string, error) {
 	//操作数据库校验登陆
-	userid, err := mysql.Login(user)
+	userid, err := dao.Login(user)
 	if err != nil {
 		if err.Error() == "密码错误" {
 			return "", errors.New("密码错误")
@@ -47,7 +47,7 @@ func Login(user *models.UserSignUp) (string, error) {
 
 func GetUserInfo(username string) (userinfo *models.User, err error) {
 	//传入username进行查库操作
-	userinfo, err = mysql.GetUserInfo(username)
+	userinfo, err = dao.GetUserInfo(username)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func GetUserInfo(username string) (userinfo *models.User, err error) {
 
 func PutUserInfo(user *models.User) error {
 	//对新的UserInfo进行入库操作
-	err := mysql.PutUserInfo(user)
+	err := dao.PutUserInfo(user)
 	if err != nil {
 		return err
 	}

@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"web_app/dao/mysql"
-	"web_app/logger"
-	"web_app/routes"
-	"web_app/settings"
 
+	"github.com/SXUOJ/backend/dao"
+	"github.com/SXUOJ/backend/logger"
+	"github.com/SXUOJ/backend/routes"
+	"github.com/SXUOJ/backend/settings"
 	"github.com/spf13/viper"
 
 	"go.uber.org/zap"
@@ -25,9 +25,9 @@ func main() {
 	}
 	defer zap.L().Sync()
 	zap.L().Debug("zap init sucessed...")
-	//3.MySQL
-	if err := mysql.Init(); err != nil {
-		fmt.Printf("mysql.Init() err:%v", err)
+	//3.SQL
+	if err := dao.DBInit(); err != nil {
+		fmt.Printf("dao.Init() err:%v", err)
 		return
 	}
 	//defer mysql.Close()

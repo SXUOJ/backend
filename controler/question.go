@@ -1,12 +1,13 @@
 package controler
 
 import (
-	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
 	"net/http"
 	"strconv"
-	"web_app/logic"
-	"web_app/models"
+
+	"github.com/SXUOJ/backend/logic"
+	"github.com/SXUOJ/backend/models"
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 func GetQuestionDetail(c *gin.Context) {

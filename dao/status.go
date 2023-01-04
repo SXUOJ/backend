@@ -1,6 +1,6 @@
-package mysql
+package dao
 
-import "web_app/models"
+import "github.com/SXUOJ/backend/models"
 
 // 通过问题id用户id 获取Status列表 amount是每页多少 page是页号
 func GetStatusListByQid(qid string, uid string, amount string, page string) ([]*models.Result, error) {

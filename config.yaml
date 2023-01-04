@@ -12,12 +12,14 @@ log:
   max_age: 30
   max_backups: 7
 
-mysql:
-  host: "127.0.0.1"
-  port: 3306
-  user: "root"
-  password: "root1234"
-  dbname: "scond"
+db:
+  host: "postgres"
+  port: 5432
+  user: "postgres"
+  password: "postgres"
+  db_name: "oj"
+  ssl_mode: "disable"
+  time_zone: "Asia/Shanghai"
   max_open_conns: 20
   max_idel_conns: 10
 
@@ -27,6 +29,3 @@ redis:
   db: 0
   password: ""
   max_pool_size: 200
-
-grpc:
-  addr: ""

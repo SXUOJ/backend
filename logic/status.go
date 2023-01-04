@@ -1,6 +1,6 @@
 package logic
 
-import "web_app/models"
+import "github.com/SXUOJ/backend/models"
 
 func GetStatusList(qid string, uid string, amount string, page string) ([]*models.Result, error) {
 	return nil, nil

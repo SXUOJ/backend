@@ -1,4 +1,4 @@
-package redis
+package dao
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 var rdb *redis.Client
 
 // 初始化连接
-func Init() (err error) {
+func RedisInit() (err error) {
 	rdb = redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%d", viper.GetString("redis.host"), viper.GetInt("radis. port")),
 		Password: viper.GetString("radis.password"),   // no password set

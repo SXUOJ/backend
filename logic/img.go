@@ -2,13 +2,14 @@ package logic
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strings"
-	"web_app/pkg/uuid"
+
+	"github.com/SXUOJ/backend/pkg/uuid"
+	"github.com/spf13/viper"
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {

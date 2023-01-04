@@ -1,4 +1,4 @@
-module web_app
+module github.com/SXUOJ/backend
 
 go 1.16
 
@@ -14,7 +14,8 @@ require (
 
 require (
 	github.com/BurntSushi/toml v1.0.0 // indirect
-	github.com/go-sql-driver/mysql v1.6.0
+	github.com/google/go-cmp v0.5.8 // indirect
+	github.com/lib/pq v1.10.7
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/gomega v1.18.1 // indirect
 	github.com/pkg/errors v0.8.1
@@ -22,6 +23,6 @@ require (
 	google.golang.org/grpc v1.43.0
 	google.golang.org/protobuf v1.27.1
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
-	gorm.io/driver/mysql v1.4.4
+	gorm.io/driver/postgres v1.4.6
 	gorm.io/gorm v1.24.2
 )

@@ -1,28 +1,33 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"github.com/lib/pq"
+	"gorm.io/gorm"
+)
 
 type QuestionSql struct {
-	*gorm.Model
+	gorm.Model
 	Question
 }
 
 // Question
 type Question struct {
-	Context     Empty       `json:"context"`
-	Information Information `json:"information"`
-	Limit       Limit       `json:"limit"`
+	Context     Context     `json:"context" gorm:"embedded"`
+	Information Information `json:"information" gorm:"embedded"`
+	Limit       Limit       `json:"limit" gorm:"embedded"`
 	Title       string      `json:"title"` // 标题
 }
 
-type Empty struct {
-	Description  string   `json:"description"` // 描述
-	ImgPath      string   `json:"img_path"`
-	Input        string   `json:"input"`         // 输入描述
-	InputSample  []string `json:"input_sample"`  // 输入样例
-	Output       string   `json:"output"`        // 输出描述
-	OutputSample []string `json:"output_sample"` // 输出样例
-	Source       string   `json:"source"`        // 来源
+type Context struct {
+	Description  string         `json:"description"` // 描述
+	ImgPath      string         `json:"img_path"`
+	Input        string         `json:"input"`                            // 输入描述
+	InputSample  pq.StringArray `json:"input_sample" gorm:"type:text[]"`  // 输入样例
+	Output       string         `json:"output"`                           // 输出描述
+	OutputSample pq.StringArray `json:"output_sample" gorm:"type:text[]"` // 输出样例
+	Source       string         `json:"source"`                           // 来源
+	// InputSample  []string `json:"input_sample"`  // 输入样例
+	// OutputSample []string `json:"output_sample"` // 输出样例
 }
 
 type Information struct {

@@ -1,10 +1,10 @@
-package mysql
+package dao
 
 import (
 	"crypto/md5"
 	"encoding/hex"
-	"web_app/models"
 
+	"github.com/SXUOJ/backend/models"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 )

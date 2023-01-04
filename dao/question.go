@@ -1,6 +1,6 @@
-package mysql
+package dao
 
-import "web_app/models"
+import "github.com/SXUOJ/backend/models"
 
 // 通过问题id获得问题详细
 func GetQuestionDetail(qid string) (*models.Question, error) {
@@ -15,10 +15,16 @@ func GetQuestionList(page int, amount int) ([]*models.Question, error) {
 	var (
 		offset       = (page - 1) * amount
 		questionSqls []models.QuestionSql
+		questions    []*models.Question
 	)
 
 	db.Limit(amount).Offset(offset).Find(&questionSqls)
-	return nil, nil
+
+	for _, v := range questionSqls {
+		questions = append(questions, &v.Question)
+	}
+
+	return questions, nil
 }
 
 // 插入问题
