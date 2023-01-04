@@ -1,5 +1,12 @@
 package models
 
+import "gorm.io/gorm"
+
+type ResultSql struct {
+	gorm.Model
+	Result
+}
+
 // result
 type Result struct {
 	CPUTime  string `json:"cpu_time"`
