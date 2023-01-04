@@ -137,3 +137,7 @@ func DelQuestion(c *gin.Context) {
 		"msg":  "ok",
 	})
 }
+
+func Get(c *gin.Context) {
+
+}
