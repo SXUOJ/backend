@@ -1,8 +1,8 @@
-run: clean remove_image
-	@docker-compose up -d
+run: clean 
+	@docker-compose up -d --force-recreate --build oj-server
 
-debug: down remove_image
-	@docker-compose up -d
+debug: down 
+	@docker-compose up -d --force-recreate --build oj-server
 
 down:
 	@docker-compose down
@@ -13,11 +13,3 @@ logs:
 clean: down
 	@sudo rm -rf data
 	@sudo rm -rf logs
-
-backend_image_name = "oj-server"
-backend_image ="$(shell docker images | grep $(backend_image_name) | awk '{print $$1}')"
-remove_image:
-
-ifeq ($(backend_image),$(backend_image_name))
-	@docker image rm $(backend_image_name)
-endif

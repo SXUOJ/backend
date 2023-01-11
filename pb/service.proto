@@ -17,17 +17,33 @@ message PongReply
 	string message = 1;
 }
 
+message Sample {
+	string input = 1;
+	string output = 2;
+}
+
 message JudgeRequest
 {
-	string type = 1;
-	string source = 2;
-	repeated string input = 3;
-	repeated string output = 4;
-	uint64 time_limit = 5;
-	uint64 memory_limit = 6;
+	string submit_id = 1;
+	uint64 type = 2;
+	string source = 3;
+	uint64 time_limit = 4;
+	uint64 memory_limit = 5;
+	repeated Sample samples = 6;
+}
+
+message Result
+{
+	uint64 status = 1;
+	int32 signal = 2;
+	double real_time = 3;
+	double cpu_time = 4;
+	double memory = 5;
+	string error = 6;
 }
 
 message JudgeReply
 {
-	string message = 1;
+	string submit_id = 1;
+	repeated Result results = 2;
 }
