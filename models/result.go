@@ -7,14 +7,36 @@ type ResultSql struct {
 	Result
 }
 
+type Status uint64
+
+const (
+	Success           Status = 0
+	Accepted          Status = 1
+	WrongAnswer       Status = 2
+	CompileError      Status = 3
+	RuntimeError      Status = 4
+	TimeLimitExceed   Status = 5
+	MemoryLimitExceed Status = 6
+	OutputLimitExceed Status = 7
+	PresentationError Status = 8
+	SystemError       Status = 9
+	UnkownError       Status = 10
+)
+
 // result
 type Result struct {
-	CPUTime  string `json:"cpu_time"`
+	SubmitID string `json:"submit_id"`
+	CodeId   string `json:"code_id"`
+	UserID   string `json:"user_id"`
+	Time     string `json:"time"`
+
+	Results []ResultOne
+}
+
+type ResultOne struct {
+	Status   int    `json:"status"`
 	Memory   string `json:"memory"`
 	RealTime string `json:"real_time"`
-	CodeId   string `json:"code_id"`
-	Status   string `json:"status"`
-	SubmitID string `json:"submit_id"`
-	Time     string `json:"time"`
-	UserID   string `json:"user_id"`
+	CPUTime  string `json:"cpu_time"`
+	ErrorMsg string `json:"error_msg"`
 }
