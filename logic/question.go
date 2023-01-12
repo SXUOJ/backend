@@ -23,7 +23,7 @@ func GetQuestionDetail(Qid string) (que *models.Question, err error) {
 	return que, nil
 }
 
-func GetQuestionList(page int, amount int) (data []*models.Question, err error) {
+func GetQuestionList(page int, amount int, uid string) (data []*models.Question, err error) {
 	//查库
 	data, err = dao.GetQuestionList(page, amount)
 	if err != nil {
@@ -110,6 +110,9 @@ func PushJudge(code models.Code) (*models.Result, error) {
 		CodeId:     code.CodeID,
 		QuestionID: code.QuestionID,
 		UserID:     code.UserID,
+		Public:     code.Public,
+		Source:     code.Source,
+		CodeType:   code.CodeType,
 		Time:       time.Now().String(),
 	}
 	Result.IfAC = true
@@ -125,42 +128,10 @@ func PushJudge(code models.Code) (*models.Result, error) {
 			ErrorMsg: re.Results[i].Error,
 		})
 	}
-
-	errCh1 := make(chan error)
-	errCh2 := make(chan error)
-
-	//4.插入结果goroutine
-	go InsertReGoroutine(Result, code, errCh1)
-
-	//5.插入解决代码goroutine
-	go InsertSoGoroutine(code, errCh2)
-	err = <-errCh1
-	errNew := <-errCh2
-
+	err = dao.InsertStatus(Result)
 	if err != nil {
 		return nil, err
 	}
-	if errNew != nil {
-		return nil, err
-	}
+
 	return &Result, nil
-}
-
-func InsertReGoroutine(Result models.Result, code models.Code, err chan error) {
-	errD := dao.InsertStatus(Result)
-	err <- errD
-}
-
-func InsertSoGoroutine(code models.Code, err chan error) {
-	solution := models.Solution{
-		CodeID:     code.CodeID,
-		CodeType:   code.CodeType,
-		Public:     code.Public,
-		QuestionID: code.QuestionID,
-		Source:     code.Source,
-		Time:       time.Now().String(),
-		UserID:     code.UserID,
-	}
-	errD := dao.InsertSolution(solution)
-	err <- errD
 }

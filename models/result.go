@@ -31,6 +31,9 @@ type Result struct {
 	QuestionID string `json:"question_id"`
 	Time       string `json:"time"`
 	IfAC       bool   `json:"if_ac"`
+	CodeType   uint64 `json:"code_type"` // 代码类型
+	Source     string `json:"source"`    // 源码
+	Public     int64  `json:"public"`
 	Results    []ResultOne
 }
 
@@ -40,4 +43,17 @@ type ResultOne struct {
 	RealTime string `json:"real_time"`
 	CPUTime  string `json:"cpu_time"`
 	ErrorMsg string `json:"error_msg"`
+}
+
+// 非入库数据模型
+type Code struct {
+	CodeID      string `json:"code_id"`   // 本次提交代码ID
+	CodeType    uint64 `json:"code_type"` // 代码类型
+	Public      int64  `json:"public"`
+	QuestionID  string `json:"question_id"` // 题目ID
+	Source      string `json:"source"`      // 源码
+	Time        string `json:"time"`        // 提交时间
+	UserID      string `json:"user_id"`     // 用户ID
+	TimeLimit   uint64 `json:"time_limit"`
+	MemoryLimit uint64 `json:"memory_limit"`
 }
