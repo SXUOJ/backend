@@ -1,8 +1,8 @@
 run: clean 
-	@docker-compose up -d --force-recreate --build oj-server
+	@docker-compose up -d --force-recreate --build backend
 
 debug: down 
-	@docker-compose up -d --force-recreate --build oj-server
+	@docker-compose up -d --force-recreate --build backend
 
 down:
 	@docker-compose down
