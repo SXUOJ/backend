@@ -1,5 +1,12 @@
 package models
 
+import "gorm.io/gorm"
+
+type SolutionSql struct {
+	gorm.Model
+	Solution
+}
+
 // solution
 type Solution struct {
 	CodeID     string `json:"code_id"`   // 本次提交代码ID
