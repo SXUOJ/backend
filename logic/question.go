@@ -50,6 +50,7 @@ func DelQuestion(qid string) error {
 }
 
 func PushJudge(code models.Code) (*models.Result, error) {
+	//1.获取判题机地址并选择合适地址（暂时只便利）
 	var addr string
 	addrs, err := GetJudgerList()
 	for _, a := range addrs {
@@ -59,6 +60,8 @@ func PushJudge(code models.Code) (*models.Result, error) {
 			break
 		}
 	}
+	//2.构建grpc判题请求模型
+	//2.1 创建代码id
 	code.CodeID, _ = uuid.Getuuid()
 	Quest := pb.JudgeRequest{
 		SubmitId:    code.CodeID,
@@ -68,7 +71,7 @@ func PushJudge(code models.Code) (*models.Result, error) {
 		MemoryLimit: code.MemoryLimit,
 		Samples:     nil,
 	}
-
+	//2.2获取样例
 	res, err := os.ReadDir("./file/sample/123/sample")
 	samples := []*pb.Sample{}
 	if err != nil {
@@ -94,12 +97,14 @@ func PushJudge(code models.Code) (*models.Result, error) {
 		samples = append(samples, s)
 	}
 	Quest.Samples = samples
+	//2.3传入判题机
 	re, err := grpc.Judge(addr, &Quest)
 
 	if err != nil {
 		return nil, err
 	}
 
+	//3.创建结果结构体
 	Subid, _ := uuid.Getuuid()
 	Result := models.Result{
 		SubmitID: Subid,
@@ -124,8 +129,10 @@ func PushJudge(code models.Code) (*models.Result, error) {
 	var wg sync.WaitGroup
 
 	wg.Add(2)
+	//4.插入结果goroutine
 	go InsertReGoroutine(Result, code, &err, &wg)
 
+	//5.插入解决代码goroutine
 	var errNew error
 	go InsertSoGoroutine(code, &errNew, &wg)
 
