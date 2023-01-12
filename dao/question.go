@@ -29,6 +29,8 @@ func GetQuestionList(page int, amount int, uid string) ([]*models.QueList, error
 	db.Model(&models.QuestionSql{}).
 		Select("question_sqls.*, result_sqls.*").
 		Joins("JOIN result_sqls ON question_sqls.question_id = result_sqls.question_id AND question_sqls.submit_id = result_sqls.submit_id").
+		Limit(amount).
+		Offset(offset).
 		Scan(questionList)
 	return questionList, nil
 }
