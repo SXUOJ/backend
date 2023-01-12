@@ -41,3 +41,9 @@ type Limit struct {
 	MemLimit  string `json:"mem_limit"`  // 内存限制
 	TimeLimit string `json:"time_limit"` // 时间限制
 }
+
+type QueList struct {
+	Title string      `json:"title"` // 标题
+	IfAc  string      `json:"if_ac"` //是否ac
+	Info  Information `json:"info"`
+}

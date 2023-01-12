@@ -25,12 +25,13 @@ const (
 
 // result
 type Result struct {
-	SubmitID string `json:"submit_id"`
-	CodeId   string `json:"code_id"`
-	UserID   string `json:"user_id"`
-	Time     string `json:"time"`
-	IfAC     bool   `json:"if_ac"`
-	Results  []ResultOne
+	SubmitID   string `json:"submit_id"`
+	CodeId     string `json:"code_id"`
+	UserID     string `json:"user_id"`
+	QuestionID string `json:"question_id"`
+	Time       string `json:"time"`
+	IfAC       bool   `json:"if_ac"`
+	Results    []ResultOne
 }
 
 type ResultOne struct {

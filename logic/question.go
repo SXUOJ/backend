@@ -10,7 +10,6 @@ import (
 	"os"
 	"path"
 	"strconv"
-	"sync"
 	"time"
 )
 
@@ -107,10 +106,11 @@ func PushJudge(code models.Code) (*models.Result, error) {
 	//3.创建结果结构体
 	Subid, _ := uuid.Getuuid()
 	Result := models.Result{
-		SubmitID: Subid,
-		CodeId:   code.CodeID,
-		UserID:   code.UserID,
-		Time:     time.Now().String(),
+		SubmitID:   Subid,
+		CodeId:     code.CodeID,
+		QuestionID: code.QuestionID,
+		UserID:     code.UserID,
+		Time:       time.Now().String(),
 	}
 	Result.IfAC = true
 	for i := range re.Results {
@@ -126,17 +126,17 @@ func PushJudge(code models.Code) (*models.Result, error) {
 		})
 	}
 
-	var wg sync.WaitGroup
+	errCh1 := make(chan error)
+	errCh2 := make(chan error)
 
-	wg.Add(2)
 	//4.插入结果goroutine
-	go InsertReGoroutine(Result, code, &err, &wg)
+	go InsertReGoroutine(Result, code, errCh1)
 
 	//5.插入解决代码goroutine
-	var errNew error
-	go InsertSoGoroutine(code, &errNew, &wg)
+	go InsertSoGoroutine(code, errCh2)
+	err = <-errCh1
+	errNew := <-errCh2
 
-	wg.Wait()
 	if err != nil {
 		return nil, err
 	}
@@ -146,24 +146,12 @@ func PushJudge(code models.Code) (*models.Result, error) {
 	return &Result, nil
 }
 
-func InsertReGoroutine(Result models.Result, code models.Code, err *error, wg *sync.WaitGroup) {
-	if Result.IfAC == true {
-		errD := dao.InsertAc(models.AC{
-			UserId: code.UserID,
-			QueId:  code.QuestionID,
-		})
-		if errD != nil {
-			err = &errD
-			wg.Done()
-			return
-		}
-	}
+func InsertReGoroutine(Result models.Result, code models.Code, err chan error) {
 	errD := dao.InsertStatus(Result)
-	err = &errD
-	wg.Done()
+	err <- errD
 }
 
-func InsertSoGoroutine(code models.Code, err *error, wg *sync.WaitGroup) {
+func InsertSoGoroutine(code models.Code, err chan error) {
 	solution := models.Solution{
 		CodeID:     code.CodeID,
 		CodeType:   code.CodeType,
@@ -173,6 +161,6 @@ func InsertSoGoroutine(code models.Code, err *error, wg *sync.WaitGroup) {
 		Time:       time.Now().String(),
 		UserID:     code.UserID,
 	}
-	*err = dao.InsertSolution(solution)
-	wg.Done()
+	errD := dao.InsertSolution(solution)
+	err <- errD
 }
