@@ -1,6 +1,8 @@
 package controler
 
 import (
+	"encoding/json"
+	"github.com/SXUOJ/backend/models"
 	"net/http"
 
 	"github.com/SXUOJ/backend/logic"
@@ -47,8 +49,29 @@ func GetStatusDetail(c *gin.Context) {
 		})
 		return
 	}
+	var rs []models.ResultOfOneSample
+	err = json.Unmarshal([]byte(re.Results), &rs)
+	if err != nil {
+		zap.L().Error("json.Unmarshal([]byte(re.Results),&rs) err :", zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"code": 404,
+			"msg":  err.Error(),
+		})
+		return
+	}
+	detail := models.ResultDetail{
+		SubmitID:   re.SubmitID,
+		UserID:     re.UserID,
+		QuestionID: re.QuestionID,
+		Time:       re.Time,
+		IfAC:       re.IfAC,
+		CodeType:   re.CodeType,
+		Source:     re.Source,
+		Public:     re.Public,
+		Results:    rs,
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"code":   200,
-		"result": re,
+		"result": detail,
 	})
 }

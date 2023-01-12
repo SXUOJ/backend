@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"encoding/json"
 	"os"
 	"path"
 	"strconv"
@@ -49,7 +50,7 @@ func DelQuestion(qid string) error {
 	return err
 }
 
-func PushJudge(code models.Code) (*models.Result, error) {
+func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 	//1.获取判题机地址并选择合适地址（暂时只便利）
 	var addr string
 	addrs, err := GetJudgerList()
@@ -62,9 +63,9 @@ func PushJudge(code models.Code) (*models.Result, error) {
 	}
 	//2.构建grpc判题请求模型
 	//2.1 创建代码id
-	code.CodeID, _ = uuid.Getuuid()
+	submitId, _ := uuid.Getuuid()
 	Quest := pb.JudgeRequest{
-		SubmitId:    code.CodeID,
+		SubmitId:    submitId,
 		Type:        code.CodeType,
 		Source:      code.Source,
 		TimeLimit:   code.TimeLimit,
@@ -108,7 +109,6 @@ func PushJudge(code models.Code) (*models.Result, error) {
 	Subid, _ := uuid.Getuuid()
 	Result := models.Result{
 		SubmitID:   Subid,
-		CodeId:     code.CodeID,
 		QuestionID: code.QuestionID,
 		UserID:     code.UserID,
 		Public:     code.Public,
@@ -117,11 +117,12 @@ func PushJudge(code models.Code) (*models.Result, error) {
 		Time:       time.Now().String(),
 	}
 	Result.IfAC = true
+	Results := []models.ResultOfOneSample{}
 	for i := range re.Results {
 		if re.Results[i].Status != 1 {
 			Result.IfAC = false
 		}
-		Result.Results = append(Result.Results, models.ResultOne{
+		Results = append(Results, models.ResultOfOneSample{
 			Status:   re.Results[i].Status,
 			Memory:   strconv.FormatFloat(re.Results[i].Memory, 'f', -1, 32),
 			RealTime: strconv.FormatFloat(re.Results[i].RealTime, 'f', -1, 32),
@@ -129,10 +130,22 @@ func PushJudge(code models.Code) (*models.Result, error) {
 			ErrorMsg: re.Results[i].Error,
 		})
 	}
+	Rjson, err := json.Marshal(Results)
+	if err != nil {
+		return nil, err
+	}
+	Result.Results = string(Rjson)
 	err = dao.InsertStatus(Result)
 	if err != nil {
 		return nil, err
 	}
 
-	return &Result, nil
+	return &models.SubmitResult{
+		SubmitID:   submitId,
+		UserID:     Result.UserID,
+		QuestionID: Result.QuestionID,
+		Time:       Result.Time,
+		IfAC:       Result.IfAC,
+		Results:    Results,
+	}, nil
 }

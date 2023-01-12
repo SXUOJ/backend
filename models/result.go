@@ -1,7 +1,6 @@
 package models
 
 import (
-	"github.com/lib/pq"
 	"gorm.io/gorm"
 )
 
@@ -28,15 +27,15 @@ const (
 
 // result
 type Result struct {
-	SubmitID   string        `json:"submit_id"`
-	UserID     string        `json:"user_id"`
-	QuestionID string        `json:"question_id"`
-	Time       string        `json:"time"`
-	IfAC       bool          `json:"if_ac"`
-	CodeType   uint64        `json:"code_type"` // 代码类型
-	Source     string        `json:"source"`    // 源码
-	Public     int64         `json:"public"`
-	Results    pq.ByteaArray `json:"results"`
+	SubmitID   string `json:"submit_id"`
+	UserID     string `json:"user_id"`
+	QuestionID string `json:"question_id"`
+	Time       string `json:"time"`
+	IfAC       bool   `json:"if_ac"`
+	CodeType   uint64 `json:"code_type"` // 代码类型
+	Source     string `json:"source"`    // 源码
+	Public     int64  `json:"public"`
+	Results    string `json:"results"`
 }
 
 type ResultOfOneSample struct {
@@ -49,11 +48,9 @@ type ResultOfOneSample struct {
 
 // 非入库数据模型
 type Submit struct {
-	QuestionID string `json:"question_id"` // 题目ID
-	//TODO: CodeID
-	// CodeID      string `json:"code_id"`   // 本次提交代码ID
-	UserID      string `json:"user_id"`   // 用户ID
-	CodeType    uint64 `json:"code_type"` // 代码类型
+	QuestionID  string `json:"question_id"` // 题目ID
+	UserID      string `json:"user_id"`     // 用户ID
+	CodeType    uint64 `json:"code_type"`   // 代码类型
 	Public      int64  `json:"public"`
 	Source      string `json:"source"` // 源码
 	Time        string `json:"time"`   // 提交时间
@@ -63,10 +60,22 @@ type Submit struct {
 
 type SubmitResult struct {
 	SubmitID   string              `json:"submit_id"`
-	CodeId     string              `json:"code_id"`
 	UserID     string              `json:"user_id"`
 	QuestionID string              `json:"question_id"`
 	Time       string              `json:"time"`
 	IfAC       bool                `json:"if_ac"`
+	Results    []ResultOfOneSample `json:"results"`
+}
+
+// result
+type ResultDetail struct {
+	SubmitID   string              `json:"submit_id"`
+	UserID     string              `json:"user_id"`
+	QuestionID string              `json:"question_id"`
+	Time       string              `json:"time"`
+	IfAC       bool                `json:"if_ac"`
+	CodeType   uint64              `json:"code_type"` // 代码类型
+	Source     string              `json:"source"`    // 源码
+	Public     int64               `json:"public"`
 	Results    []ResultOfOneSample `json:"results"`
 }

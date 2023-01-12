@@ -75,7 +75,7 @@ func GetQuestionList(c *gin.Context) {
 }
 
 func PushQuestionJudge(c *gin.Context) {
-	var code models.Code
+	var code models.Submit
 	err := c.ShouldBindJSON(&code)
 	if err != nil {
 		zap.L().Error(" PushQuestionJudge 转化失败", zap.Error(err))
@@ -94,7 +94,6 @@ func PushQuestionJudge(c *gin.Context) {
 		})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{
 		"code":   200,
 		"result": re,
