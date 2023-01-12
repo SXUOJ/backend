@@ -78,10 +78,16 @@ func PushJudge(code models.Code) (*models.Result, error) {
 		s := new(pb.Sample)
 		for j := i; j < i+2; j++ {
 			if path.Ext(res[j].Name()) == ".in" {
-				b, _ := os.ReadFile("./file/sample/123/sample/" + res[j].Name())
+				b, err := os.ReadFile("./file/sample/123/sample/" + res[j].Name())
 				s.Input = string(b)
+				if err != nil {
+					return nil, err
+				}
 			} else if path.Ext(res[j].Name()) == ".out" {
-				b, _ := os.ReadFile("./file/sample/123/sample/" + res[j].Name())
+				b, err := os.ReadFile("./file/sample/123/sample/" + res[j].Name())
+				if err != nil {
+					return nil, err
+				}
 				s.Output = string(b)
 			}
 		}
