@@ -58,6 +58,7 @@ func SPut(w http.ResponseWriter, r *http.Request) {
 	//log.Println(r.URL.EscapedPath())
 	//C:\Users\Administrator\go\src\awesomeProject\test_file
 	err = os.Mkdir("./file"+"/sample/"+exten, 0777)
+	err = os.Mkdir("./file/sample/"+exten+"/sample", 0777)
 	if err != nil {
 		w.Write([]byte("can not create sample"))
 		fmt.Println(err)
@@ -90,7 +91,7 @@ func SPut(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
-	dst := "./file/sample/" + exten
+	dst := "./file/sample/" + exten + "/sample"
 	archive, err := zip.OpenReader(dst + "/" + exten + ".zip")
 	if err != nil {
 		panic(err)

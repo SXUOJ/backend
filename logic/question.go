@@ -7,6 +7,8 @@ import (
 	"github.com/SXUOJ/backend/pkg/grpc"
 	"github.com/SXUOJ/backend/pkg/uuid"
 	"go.uber.org/zap"
+	"os"
+	"path"
 	"strconv"
 	"sync"
 	"time"
@@ -48,12 +50,12 @@ func DelQuestion(qid string) error {
 }
 
 func PushJudge(code models.Code) (*models.Result, error) {
-	addrs := []string{}
 	var addr string
+	addrs, err := GetJudgerList()
 	for _, a := range addrs {
-		_, err := grpc.Ping(a)
+		_, err := grpc.Ping(a.Addr)
 		if err == nil {
-			addr = a
+			addr = a.Addr
 			break
 		}
 	}
@@ -66,6 +68,26 @@ func PushJudge(code models.Code) (*models.Result, error) {
 		MemoryLimit: code.MemoryLimit,
 		Samples:     nil,
 	}
+
+	res, err := os.ReadDir("./file/sample/123/sample")
+	samples := []*pb.Sample{}
+	if err != nil {
+		return nil, err
+	}
+	for i := 0; i < len(res); i += 2 {
+		s := new(pb.Sample)
+		for j := i; j < i+2; j++ {
+			if path.Ext(res[j].Name()) == ".in" {
+				b, _ := os.ReadFile("./file/sample/123/sample/" + res[j].Name())
+				s.Input = string(b)
+			} else if path.Ext(res[j].Name()) == ".out" {
+				b, _ := os.ReadFile("./file/sample/123/sample/" + res[j].Name())
+				s.Output = string(b)
+			}
+		}
+		samples = append(samples, s)
+	}
+	Quest.Samples = samples
 	re, err := grpc.Judge(addr, &Quest)
 
 	if err != nil {
