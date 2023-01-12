@@ -17,7 +17,7 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 		authHeader := c.Request.Header.Get("Authorization")
 		if authHeader == "" {
 			c.JSON(http.StatusOK, gin.H{
-				"code": 404,
+				"code": 2000,
 				"msg":  "请求头中auth为空",
 			})
 			c.Abort()
@@ -27,7 +27,7 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 		parts := strings.SplitN(authHeader, " ", 2)
 		if !(len(parts) == 2 && parts[0] == "Bearer") {
 			c.JSON(http.StatusOK, gin.H{
-				"code": 404,
+				"code": 2000,
 				"msg":  "请求头中auth格式有误",
 			})
 			c.Abort()
@@ -37,7 +37,7 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 		mc, err := jwt.ParseToken(parts[1])
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
-				"code": 404,
+				"code": 2000,
 				"msg":  "无效的Token",
 			})
 			c.Abort()
