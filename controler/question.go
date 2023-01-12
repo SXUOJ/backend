@@ -66,7 +66,30 @@ func GetQuestionList(c *gin.Context) {
 }
 
 func PushQuestionJudge(c *gin.Context) {
+	var code models.Code
+	err := c.ShouldBindJSON(&code)
+	if err != nil {
+		zap.L().Error(" PushQuestionJudge 转化失败", zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"code": 404,
+			"msg":  err.Error(),
+		})
+		return
+	}
+	re, err := logic.PushJudge(code)
+	if err != nil {
+		zap.L().Error("PushJudge 失败", zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"code": 404,
+			"msg":  err.Error(),
+		})
+		return
+	}
 
+	c.JSON(http.StatusOK, gin.H{
+		"code":   200,
+		"result": re,
+	})
 }
 
 func CreateQuestion(c *gin.Context) {

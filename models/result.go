@@ -29,12 +29,12 @@ type Result struct {
 	CodeId   string `json:"code_id"`
 	UserID   string `json:"user_id"`
 	Time     string `json:"time"`
-
-	Results []ResultOne
+	IfAC     bool   `json:"if_ac"`
+	Results  []ResultOne
 }
 
 type ResultOne struct {
-	Status   int    `json:"status"`
+	Status   uint64 `json:"status"`
 	Memory   string `json:"memory"`
 	RealTime string `json:"real_time"`
 	CPUTime  string `json:"cpu_time"`
