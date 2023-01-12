@@ -77,6 +77,15 @@ func GetQuestionList(c *gin.Context) {
 func PushQuestionJudge(c *gin.Context) {
 	var code models.Submit
 	err := c.ShouldBindJSON(&code)
+	uid, ok := c.Get("user_id")
+	if !ok {
+		zap.L().Error(" PushQuestionJudge 转化失败", zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"code": 404,
+			"msg":  err.Error(),
+		})
+		return
+	}
 	if err != nil {
 		zap.L().Error(" PushQuestionJudge 转化失败", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
@@ -85,6 +94,7 @@ func PushQuestionJudge(c *gin.Context) {
 		})
 		return
 	}
+	code.UserID = uid.(string)
 	re, err := logic.PushJudge(code)
 	if err != nil {
 		zap.L().Error("PushJudge 失败", zap.Error(err))
