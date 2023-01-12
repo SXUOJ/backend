@@ -1,6 +1,8 @@
 package dao
 
-import "github.com/SXUOJ/backend/models"
+import (
+	"github.com/SXUOJ/backend/models"
+)
 
 // 通过问题id获得问题详细
 func GetQuestionDetail(qid string) (*models.Question, error) {
@@ -20,19 +22,14 @@ func GetQuestionList(page int, amount int, uid string) ([]*models.QueList, error
 
 	db.Limit(amount).Offset(offset).Find(&questionSqls)
 
+	/*	SELECT question_sqls.*,result_sqls.*
+			FROM question_sqls
+		 	JOIN result_sqls
+				ON question_sqls.question_id = result_sqls.question_id AND question_sqls.submit_id = result_sqls.submit_id;*/
 	db.Model(&models.QuestionSql{}).
 		Select("question_sqls.*, result_sqls.*").
-		Joins("JOIN result_sqls ON question_sqls.question_id = result_sqls.question_id").
+		Joins("JOIN result_sqls ON question_sqls.question_id = result_sqls.question_id AND question_sqls.submit_id = result_sqls.submit_id").
 		Scan(questionList)
-
-	/*	SELECT outbound_sqls.*,item_sqls.item_id,item_sqls.item_name,item_sqls.specification,item_sqls.unit,item_sqls.storage_location
-			FROM outbound_sqls
-		 	JOIN item_sqls
-				ON outbound_sqls.item_id = item_sqls.item_id;*/
-	// dao.DB.Model(&model.OutboundSql{}).
-	// Select("outbound_sqls.*,item_sqls.item_id,item_sqls.item_name,item_sqls.specification,item_sqls.unit,item_sqls.storage_location").
-	// Joins("JOIN item_sqls ON outbound_sqls.item_id = item_sqls.item_id").Scan(&details)
-
 	return questionList, nil
 }
 

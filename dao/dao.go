@@ -30,7 +30,12 @@ func DBInit() (err error) {
 	}
 
 	// 绑定模型
-	err = db.AutoMigrate(&models.UserSql{}, &models.QuestionSql{})
+	err = db.AutoMigrate(
+		&models.UserSql{},
+		&models.QuestionSql{},
+		&models.JudgerAddrSql{},
+		&models.ResultSql{},
+	)
 	if err != nil {
 		fmt.Printf("Binding model failed: %v", zap.Error(err))
 		return
