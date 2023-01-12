@@ -39,6 +39,15 @@ func GetQuestionList(c *gin.Context) {
 	amount := c.Query("amount")
 	Page, err := strconv.Atoi(page)
 	Amount, err := strconv.Atoi(amount)
+	uid, ok := c.Get("user_id")
+	if !ok {
+		zap.L().Error(" GetQuestionList 转化失败", zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"code": 404,
+			"msg":  zap.Error(err),
+		})
+		return
+	}
 	if err != nil {
 		zap.L().Error(" GetQuestionList 转化失败", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
@@ -48,7 +57,7 @@ func GetQuestionList(c *gin.Context) {
 		return
 	}
 	//逻辑层处理
-	data, err := logic.GetQuestionList(Page, Amount, "")
+	data, err := logic.GetQuestionList(Page, Amount, uid.(string))
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": 404,
