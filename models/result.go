@@ -29,7 +29,6 @@ const (
 // result
 type Result struct {
 	SubmitID   string        `json:"submit_id"`
-	CodeId     string        `json:"code_id"`
 	UserID     string        `json:"user_id"`
 	QuestionID string        `json:"question_id"`
 	Time       string        `json:"time"`
