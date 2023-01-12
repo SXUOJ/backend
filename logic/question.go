@@ -73,7 +73,7 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 		Samples:     nil,
 	}
 	//2.2获取样例
-	res, err := os.ReadDir("./file/sample/123/sample")
+	res, err := os.ReadDir("./file/sample/" + code.QuestionID + "/sample")
 	samples := []*pb.Sample{}
 	if err != nil {
 		return nil, err
@@ -82,13 +82,13 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 		s := new(pb.Sample)
 		for j := i; j < i+2; j++ {
 			if path.Ext(res[j].Name()) == ".in" {
-				b, err := os.ReadFile("./file/sample/123/sample/" + res[j].Name())
+				b, err := os.ReadFile("./file/sample/" + code.QuestionID + "/sample" + res[j].Name())
 				s.Input = string(b)
 				if err != nil {
 					return nil, err
 				}
 			} else if path.Ext(res[j].Name()) == ".out" {
-				b, err := os.ReadFile("./file/sample/123/sample/" + res[j].Name())
+				b, err := os.ReadFile("./file/sample/" + code.QuestionID + "/sample" + res[j].Name())
 				if err != nil {
 					return nil, err
 				}
