@@ -1,16 +1,17 @@
 package logic
 
 import (
+	"os"
+	"path"
+	"strconv"
+	"time"
+
 	"github.com/SXUOJ/backend/dao"
 	"github.com/SXUOJ/backend/models"
 	"github.com/SXUOJ/backend/pb"
 	"github.com/SXUOJ/backend/pkg/grpc"
 	"github.com/SXUOJ/backend/pkg/uuid"
 	"go.uber.org/zap"
-	"os"
-	"path"
-	"strconv"
-	"time"
 )
 
 func GetQuestionDetail(Qid string) (que *models.Question, err error) {
@@ -23,9 +24,9 @@ func GetQuestionDetail(Qid string) (que *models.Question, err error) {
 	return que, nil
 }
 
-func GetQuestionList(page int, amount int, uid string) (data []*models.Question, err error) {
+func GetQuestionList(page int, amount int, uid string) (data []*models.QueList, err error) {
 	//查库
-	data, err = dao.GetQuestionList(page, amount)
+	data, err = dao.GetQuestionList(page, amount, uid)
 	if err != nil {
 		zap.L().Error("dao.GetQuestionList(page, amount) err ", zap.Error(err))
 		return nil, err

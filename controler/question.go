@@ -48,7 +48,7 @@ func GetQuestionList(c *gin.Context) {
 		return
 	}
 	//逻辑层处理
-	data, err := logic.GetQuestionList(Page, Amount)
+	data, err := logic.GetQuestionList(Page, Amount, "")
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": 404,

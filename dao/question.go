@@ -11,20 +11,29 @@ func GetQuestionDetail(qid string) (*models.Question, error) {
 }
 
 // 获取问题列表 page是页号 amount是每页数量 并且 获取每个题目是否ac
-func GetQuestionList(page int, amount int) ([]*models.Question, error) {
+func GetQuestionList(page int, amount int, uid string) ([]*models.QueList, error) {
 	var (
 		offset       = (page - 1) * amount
 		questionSqls []models.QuestionSql
-		questions    []*models.Question
+		questionList []*models.QueList
 	)
 
 	db.Limit(amount).Offset(offset).Find(&questionSqls)
 
-	for _, v := range questionSqls {
-		questions = append(questions, &v.Question)
-	}
+	db.Model(&models.QuestionSql{}).
+		Select("question_sqls.*, result_sqls.*").
+		Joins("JOIN result_sqls ON question_sqls.question_id = result_sqls.question_id").
+		Scan(questionList)
 
-	return questions, nil
+	/*	SELECT outbound_sqls.*,item_sqls.item_id,item_sqls.item_name,item_sqls.specification,item_sqls.unit,item_sqls.storage_location
+			FROM outbound_sqls
+		 	JOIN item_sqls
+				ON outbound_sqls.item_id = item_sqls.item_id;*/
+	// dao.DB.Model(&model.OutboundSql{}).
+	// Select("outbound_sqls.*,item_sqls.item_id,item_sqls.item_name,item_sqls.specification,item_sqls.unit,item_sqls.storage_location").
+	// Joins("JOIN item_sqls ON outbound_sqls.item_id = item_sqls.item_id").Scan(&details)
+
+	return questionList, nil
 }
 
 // 插入问题
