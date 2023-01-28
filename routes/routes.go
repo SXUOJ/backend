@@ -28,7 +28,7 @@ func Setup() *gin.Engine {
 
 	//题目路由组
 	quegroup := apigroup.Group("/question")
-	apigroup.Use(middleware.JWTAuthMiddleware())
+	quegroup.Use(middleware.JWTAuthMiddleware())
 	quegroup.GET("/get/:question_id", controler.GetQuestionDetail)
 	quegroup.GET("/get_list", controler.GetQuestionList)
 	quegroup.POST("/submit", controler.PushQuestionJudge)
