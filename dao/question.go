@@ -22,13 +22,14 @@ func GetQuestionList(page int, amount int, uid string) ([]*models.QueList, error
 
 	db.Limit(amount).Offset(offset).Find(&questionSqls)
 
-	/*	SELECT question_sqls.*,result_sqls.*
-			FROM question_sqls
-		 	JOIN result_sqls
-				ON question_sqls.question_id = result_sqls.question_id AND question_sqls.submit_id = result_sqls.submit_id;*/
+	/* SELECT question_sqls.*,result_sqls.if_ac
+		  FROM question_sqls
+	 	  LEFT JOIN result_sqls
+			  ON question_sqls.question_id = result_sqls.question_id AND result_sqls.if_ac=true;
+	*/
 	db.Model(&models.QuestionSql{}).
-		Select("question_sqls.*, result_sqls.*").
-		Joins("JOIN result_sqls ON question_sqls.question_id = result_sqls.question_id AND question_sqls.submit_id = result_sqls.submit_id").
+		Select("question_sqls.*, result_sqls.if_ac").
+		Joins("LEFT JOIN result_sqls ON question_sqls.question_id = result_sqls.question_id AND result_sqls.if_ac=true").
 		Limit(amount).
 		Offset(offset).
 		Scan(questionList)
