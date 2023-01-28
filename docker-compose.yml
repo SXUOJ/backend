@@ -29,5 +29,7 @@ services:
     volumes:
       - ./data/static:/static
       - ./data/logs:/logs
+      - ./data/img:/file/img
+      - ./data/sample:/file/sample
     ports:
       - "0.0.0.0:8081:8081"
