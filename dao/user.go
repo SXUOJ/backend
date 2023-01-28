@@ -12,12 +12,18 @@ import (
 const secret = "jiaomaster"
 
 func CheckUserExist(UserName string) (bool, error) {
+	var (
+		exist   bool = false
+		userSql      = models.UserSql{}
+	)
+
 	// 根据用户名与库中用户名匹配
-	result := db.Where("usernmae = ?", UserName).Find(models.User{})
-	if result.RowsAffected > 0 || result.Error != nil {
-		return true, result.Error
+	result := db.Where("username = ?", UserName).Find(&userSql)
+	if result.RowsAffected > 0 {
+		exist = true
 	}
-	return false, nil
+
+	return exist, result.Error
 }
 
 // 对密码加密
