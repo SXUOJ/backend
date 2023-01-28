@@ -82,7 +82,7 @@ func Put(w http.ResponseWriter, r *http.Request) {
 			io.Copy(f, handle)
 			fmt.Printf("successful uploaded,fileName=%s,fileSize=%.2f MB,savePath=%s \n", id+"."+exten, float64(contentLen)/1024/1024, f.Name())
 
-			w.Write([]byte("http://" + viper.GetString("app.server") + ":" + viper.GetString("app.port") + "/api/admin/upload/image/" + id + "." + exten))
+			w.Write([]byte("http://" + viper.GetString("app.server") + "/api/admin/upload/image/" + id + "." + exten))
 		}
 	}
 }
