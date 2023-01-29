@@ -45,5 +45,5 @@ type Limit struct {
 type QueList struct {
 	Title string      `json:"title"` // 标题
 	IfAc  string      `json:"if_ac"` //是否ac
-	Info  Information `json:"info"`
+	Info  Information `json:"info" gorm:"embedded"`
 }

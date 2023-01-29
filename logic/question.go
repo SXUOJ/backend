@@ -25,7 +25,7 @@ func GetQuestionDetail(Qid string) (que *models.Question, err error) {
 	return que, nil
 }
 
-func GetQuestionList(page int, amount int, uid string) (data []*models.QueList, err error) {
+func GetQuestionList(page int, amount int, uid string) (data *[]models.QueList, err error) {
 	//查库
 	data, err = dao.GetQuestionList(page, amount, uid)
 	if err != nil {
