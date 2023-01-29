@@ -94,7 +94,6 @@ func SPut(w http.ResponseWriter, r *http.Request) {
 	dst := "./file/sample/" + exten + "/sample"
 	dst2 := "./file/sample/" + exten
 	archive, err := zip.OpenReader(dst2 + "/" + exten + ".zip")
-	fmt.Println(archive, err)
 	if err != nil {
 		panic(err)
 	}
