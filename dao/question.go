@@ -1,7 +1,10 @@
 package dao
 
 import (
+	"fmt"
+
 	"github.com/SXUOJ/backend/models"
+	"go.uber.org/zap"
 )
 
 // 通过问题id获得问题详细
@@ -24,12 +27,12 @@ func GetQuestionList(page int, amount int, uid string) ([]*models.QueList, error
 
 	/* SELECT question_sqls.*,result_sqls.if_ac
 		  FROM question_sqls
-	 	  LEFT JOIN result_sqls
-			  ON question_sqls.question_id = result_sqls.question_id AND result_sqls.if_ac=true;
+	 	  	LEFT JOIN result_sqls
+			  ON question_sqls.question_id = result_sqls.question_id AND result_sqls.if_ac=true AND result_sqls.user_id=uid;
 	*/
 	db.Model(&models.QuestionSql{}).
-		Select("question_sqls.*, result_sqls.if_ac").
-		Joins("LEFT JOIN result_sqls ON question_sqls.question_id = result_sqls.question_id AND result_sqls.if_ac=true").
+		Select("question_sqls.*, result_sqls.if_ac, result_sqls.user_id").
+		Joins(fmt.Sprintf("LEFT JOIN result_sqls ON question_sqls.question_id = result_sqls.question_id AND result_sqls.if_ac=true AND result_sqls.user_id = %s", uid)).
 		Limit(amount).
 		Offset(offset).
 		Scan(questionList)
