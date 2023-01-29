@@ -1,6 +1,7 @@
 package controler
 
 import (
+	"github.com/SXUOJ/backend/pkg/uuid"
 	"net/http"
 	"strconv"
 
@@ -121,6 +122,8 @@ func CreateQuestion(c *gin.Context) {
 		})
 		return
 	}
+	qid, _ := uuid.Getuuid()
+	que.Information.QuestionID = qid
 	err = logic.CreateQuestion(*que)
 	if err != nil {
 		zap.L().Error("logic.CreateQuestion err", zap.Error(err))
@@ -131,8 +134,9 @@ func CreateQuestion(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"code": 200,
-		"msg":  "ok",
+		"code":       200,
+		"msg":        "ok",
+		"questionId": qid,
 	})
 }
 
