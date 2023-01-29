@@ -92,12 +92,13 @@ func SPut(w http.ResponseWriter, r *http.Request) {
 
 	}
 	dst := "./file/sample/" + exten + "/sample"
-	archive, err := zip.OpenReader(dst + "/" + exten + ".zip")
+	dst2 := "./file/sample/" + exten
+	archive, err := zip.OpenReader(dst2 + "/" + exten + ".zip")
+	fmt.Println(archive, err)
 	if err != nil {
 		panic(err)
 	}
 	defer archive.Close()
-
 	for _, f := range archive.File {
 		filePath := filepath.Join(dst, f.Name)
 
