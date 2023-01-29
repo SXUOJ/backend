@@ -3,7 +3,6 @@ package dao
 import (
 	"crypto/md5"
 	"encoding/hex"
-
 	"github.com/SXUOJ/backend/models"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
@@ -79,7 +78,7 @@ func Login(user *models.UserSignUp) (string, error) {
 		return "", errors.New("密码错误")
 	}
 	//校验成功
-	return user.UserId, nil
+	return userSql.UserId, nil
 }
 
 // 获取用户信息
