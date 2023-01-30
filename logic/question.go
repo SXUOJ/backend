@@ -72,6 +72,7 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 		MemoryLimit: code.MemoryLimit,
 		Samples:     nil,
 	}
+	Quest.MemoryLimit = Quest.MemoryLimit * 1024 * 1024
 	//2.2获取样例
 	res, err := os.ReadDir("./file/sample/" + code.QuestionID + "/sample")
 	samples := []*pb.Sample{}
