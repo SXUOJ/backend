@@ -12,7 +12,7 @@ func GetJudger() ([]*models.JudgerAddr, error) {
 		addrs    []*models.JudgerAddr
 	)
 
-	if err := db.Find(&addrs).Error; err != nil {
+	if err := db.Find(&addrSqls).Error; err != nil {
 		return nil, err
 	}
 
