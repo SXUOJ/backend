@@ -2,6 +2,7 @@ package logic
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"path"
 	"strconv"
@@ -55,7 +56,8 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 	var addr string
 	addrs, err := GetJudgerList()
 	for _, a := range addrs {
-		_, err := grpc.Ping(a.Addr)
+		re, err := grpc.Ping(a.Addr)
+		fmt.Println(re.Message)
 		if err == nil {
 			addr = a.Addr
 			break
@@ -75,6 +77,7 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 	Quest.MemoryLimit = Quest.MemoryLimit * 1024 * 1024
 	//2.2获取样例
 	res, err := os.ReadDir("./file/sample/" + code.QuestionID + "/sample")
+	fmt.Println(res[0].Name(), res[1].Name())
 	samples := []*pb.Sample{}
 	if err != nil {
 		return nil, err
@@ -83,13 +86,13 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 		s := new(pb.Sample)
 		for j := i; j < i+2; j++ {
 			if path.Ext(res[j].Name()) == ".in" {
-				b, err := os.ReadFile("./file/sample/" + code.QuestionID + "/sample" + res[j].Name())
+				b, err := os.ReadFile("./file/sample/" + code.QuestionID + "/sample/" + res[j].Name())
 				s.Input = string(b)
 				if err != nil {
 					return nil, err
 				}
 			} else if path.Ext(res[j].Name()) == ".out" {
-				b, err := os.ReadFile("./file/sample/" + code.QuestionID + "/sample" + res[j].Name())
+				b, err := os.ReadFile("./file/sample/" + code.QuestionID + "/sample/" + res[j].Name())
 				if err != nil {
 					return nil, err
 				}
@@ -99,6 +102,10 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 		samples = append(samples, s)
 	}
 	Quest.Samples = samples
+	for i := range samples {
+		b, _ := json.Marshal(*samples[i])
+		fmt.Println(string(b))
+	}
 	//2.3传入判题机
 	re, err := grpc.Judge(addr, &Quest)
 
