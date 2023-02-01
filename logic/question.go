@@ -57,7 +57,7 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 	addrs, err := GetJudgerList()
 	for _, a := range addrs {
 		re, err := grpc.Ping(a.Addr)
-		fmt.Println(re.Message)
+		fmt.Println(re, a.Addr)
 		if err == nil {
 			addr = a.Addr
 			break
@@ -104,7 +104,7 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 	Quest.Samples = samples
 	//2.3传入判题机
 	re, err := grpc.Judge(addr, &Quest)
-
+	fmt.Println(re)
 	if err != nil {
 		return nil, err
 	}

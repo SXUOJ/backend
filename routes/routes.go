@@ -70,7 +70,7 @@ func Setup() *gin.Engine {
 
 	//提交状态
 	stugroup := apigroup.Group("/status")
-	apigroup.Use(middleware.JWTAuthMiddleware())
+	stugroup.Use(middleware.JWTAuthMiddleware())
 	stugroup.GET("/get_list_by_question_id/:qid", controler.GetStatusList)
 	stugroup.GET("/get_status_by_submit_id/:submitId", controler.GetStatusDetail)
 
