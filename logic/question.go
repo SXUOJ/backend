@@ -102,10 +102,6 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 		samples = append(samples, s)
 	}
 	Quest.Samples = samples
-	for i := range samples {
-		b, _ := json.Marshal(*samples[i])
-		fmt.Println(string(b))
-	}
 	//2.3传入判题机
 	re, err := grpc.Judge(addr, &Quest)
 
