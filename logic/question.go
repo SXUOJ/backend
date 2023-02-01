@@ -65,13 +65,13 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 	//2.1 创建代码id
 	submitId, _ := uuid.Getuuid()
 	Quest := pb.JudgeRequest{
-		SubmitId:    submitId,
-		Type:        code.CodeType,
-		Source:      code.Source,
-		TimeLimit:   code.TimeLimit,
-		MemoryLimit: code.MemoryLimit,
-		Samples:     nil,
+		SubmitId: submitId,
+		Source:   code.Source,
+		Samples:  nil,
 	}
+	Quest.Type, _ = strconv.ParseUint(code.CodeType, 10, 64)
+	Quest.TimeLimit, _ = strconv.ParseUint(code.TimeLimit, 10, 64)
+	Quest.MemoryLimit, _ = strconv.ParseUint(code.MemoryLimit, 10, 64)
 	Quest.MemoryLimit = Quest.MemoryLimit * 1024 * 1024
 	//2.2获取样例
 	res, err := os.ReadDir("./file/sample/" + code.QuestionID + "/sample")
@@ -114,9 +114,9 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 		UserID:     code.UserID,
 		Public:     code.Public,
 		Source:     code.Source,
-		CodeType:   code.CodeType,
 		Time:       time.Now().String(),
 	}
+	Result.CodeType, _ = strconv.ParseUint(code.CodeType, 10, 64)
 	Result.IfAC = true
 	Results := []models.ResultOfOneSample{}
 	for i := range re.Results {

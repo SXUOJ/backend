@@ -50,12 +50,12 @@ type ResultOfOneSample struct {
 type Submit struct {
 	QuestionID  string `json:"question_id"` // 题目ID
 	UserID      string `json:"user_id"`     // 用户ID
-	CodeType    uint64 `json:"code_type"`   // 代码类型
+	CodeType    string `json:"code_type"`   // 代码类型
 	Public      int64  `json:"public"`
 	Source      string `json:"source"` // 源码
 	Time        string `json:"time"`   // 提交时间
-	TimeLimit   uint64 `json:"time_limit"`
-	MemoryLimit uint64 `json:"memory_limit"`
+	TimeLimit   string `json:"time_limit"`
+	MemoryLimit string `json:"memory_limit"`
 }
 
 type SubmitResult struct {
