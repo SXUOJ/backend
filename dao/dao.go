@@ -35,6 +35,7 @@ func DBInit() (err error) {
 		&models.QuestionSql{},
 		&models.JudgerAddrSql{},
 		&models.ResultSql{},
+		&models.AcSql{},
 	)
 	if err != nil {
 		fmt.Printf("Binding model failed: %v", zap.Error(err))

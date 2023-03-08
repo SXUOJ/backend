@@ -120,11 +120,11 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 		Time:       time.Now().String(),
 	}
 	Result.CodeType, _ = strconv.ParseUint(code.CodeType, 10, 64)
-	Result.IfAC = true
+	Result.IfAC = 1
 	Results := []models.ResultOfOneSample{}
 	for i := range re.Results {
 		if re.Results[i].Status != 1 {
-			Result.IfAC = false
+			Result.IfAC = 0
 		}
 		Results = append(Results, models.ResultOfOneSample{
 			Status:   re.Results[i].Status,

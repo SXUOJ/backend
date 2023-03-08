@@ -20,14 +20,14 @@ func GetQuestionList(page int, amount int, uid string) (*[]models.QueList, error
 		offset       = (page - 1) * amount
 		questionList []models.QueList
 	)
-	/* SELECT question_sqls.*,result_sqls.if_ac
+	/* SELECT question_sqls.*,ac_sqls.*
 		  FROM question_sqls
-	 	  	LEFT JOIN result_sqls
-			  ON question_sqls.question_id = result_sqls.question_id AND result_sqls.if_ac=true AND result_sqls.user_id=uid;
+	 	  	LEFT JOIN ac_sqls
+			  ON question_sqls.question_id = ac_sqls.question_id AND ac_sqls.user_id=uid AND ac_sqls.if_ac=1;
 	*/
 	result := db.Model(&models.QuestionSql{}).
-		Select("question_sqls.*, result_sqls.if_ac, result_sqls.user_id").
-		Joins(fmt.Sprintf("LEFT JOIN result_sqls ON question_sqls.question_id = result_sqls.question_id AND result_sqls.if_ac=true AND result_sqls.user_id = '%s' ", uid)).
+		Select("question_sqls.*, ac_sqls.*").
+		Joins(fmt.Sprintf("LEFT JOIN ac_sqls ON question_sqls.question_id = ac_sqls.question_id AND ac_sqls.user_id=%s AND ac_sqls.if_ac=1", uid)).
 		Limit(amount).
 		Offset(offset).
 		Scan(&questionList)

@@ -31,7 +31,7 @@ type Result struct {
 	UserID     string `json:"user_id"`
 	QuestionID string `json:"question_id"`
 	Time       string `json:"time"`
-	IfAC       bool   `json:"if_ac"`
+	IfAC       int    `json:"if_ac"`
 	CodeType   uint64 `json:"code_type"` // 代码类型
 	Source     string `json:"source"`    // 源码
 	Public     int64  `json:"public"`
@@ -63,7 +63,7 @@ type SubmitResult struct {
 	UserID     string              `json:"user_id"`
 	QuestionID string              `json:"question_id"`
 	Time       string              `json:"time"`
-	IfAC       bool                `json:"if_ac"`
+	IfAC       int                 `json:"if_ac"`
 	Results    []ResultOfOneSample `json:"results"`
 }
 
@@ -73,9 +73,20 @@ type ResultDetail struct {
 	UserID     string              `json:"user_id"`
 	QuestionID string              `json:"question_id"`
 	Time       string              `json:"time"`
-	IfAC       bool                `json:"if_ac"`
+	IfAC       int                 `json:"if_ac"`
 	CodeType   uint64              `json:"code_type"` // 代码类型
 	Source     string              `json:"source"`    // 源码
 	Public     int64               `json:"public"`
 	Results    []ResultOfOneSample `json:"results"`
+}
+
+type AcSql struct {
+	gorm.Model
+	Ac
+}
+
+type Ac struct {
+	UserID     string `json:"user_id"`
+	QuestionID string `json:"question_id"`
+	IfAC       int    `json:"if_ac"`
 }

@@ -19,7 +19,7 @@ func Ping(addr string) (*pb.PongReply, error) {
 	defer conn.Close()
 
 	c := pb.NewJudgerClient(conn)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	return c.Ping(ctx, &pb.PingRequest{})
 }
@@ -33,7 +33,7 @@ func Judge(addr string, req *pb.JudgeRequest) (*pb.JudgeReply, error) {
 	defer conn.Close()
 
 	c := pb.NewJudgerClient(conn)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	return c.Judge(ctx, req)
