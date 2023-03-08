@@ -140,6 +140,13 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 	}
 	Result.Results = string(Rjson)
 	err = dao.InsertStatus(Result)
+	if Result.IfAC == 1 {
+		dao.InsertAc(models.Ac{
+			UserID:     code.UserID,
+			QuestionID: code.QuestionID,
+			IfAC:       1,
+		})
+	}
 	if err != nil {
 		return nil, err
 	}

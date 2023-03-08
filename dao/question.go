@@ -48,3 +48,8 @@ func UpdateQuestion(qid string, que models.Question) error {
 func DeleteQuestion(qid string) error {
 	return db.Where("question_id = ?", qid).Unscoped().Delete(&models.QuestionSql{}).Error
 }
+
+// 插入AC表
+func InsertAc(ac models.Ac) error {
+	return nil
+}

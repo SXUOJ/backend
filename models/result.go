@@ -87,6 +87,6 @@ type AcSql struct {
 
 type Ac struct {
 	UserID     string `json:"user_id"`
-	QuestionID string `json:"question_id"`
+	QuestionID string `json:"question_id" gorm:"unique;not null"`
 	IfAC       int    `json:"if_ac"`
 }
