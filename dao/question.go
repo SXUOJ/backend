@@ -51,5 +51,10 @@ func DeleteQuestion(qid string) error {
 
 // 插入AC表
 func InsertAc(ac models.Ac) error {
+	var ac1 models.AcSql
+	if err := db.Where("question_id = ?", ac.QuestionID).First(&ac1).Error; err != nil {
+		db.Create(&models.AcSql{Ac: ac})
+	}
+
 	return nil
 }
