@@ -8,15 +8,11 @@ import (
 	"github.com/pkg/errors"
 )
 
-func Register(user *models.UserSignUp) (string, error) {
+func Register(user *models.User) (string, error) {
 	//生成userID
 	userId, err := uuid.Getuuid()
-	newuser := new(models.UserInMysql)
-	newuser.UserId = userId
-	newuser.Username = user.Username
-	newuser.Password = user.Password
 	//入库
-	ok, err := dao.Register(newuser)
+	ok, err := dao.Register(user)
 	if !ok {
 		return "nil", err
 	}

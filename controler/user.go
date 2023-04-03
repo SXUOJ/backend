@@ -10,7 +10,7 @@ import (
 )
 
 func RegisterHandler(c *gin.Context) {
-	user := new(models.UserSignUp)
+	user := new(models.User)
 	if err := c.ShouldBindJSON(user); err != nil {
 		zap.L().Error("ShouldBindJSON(user) err...", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{

@@ -32,7 +32,7 @@ func encryptPassword(oPassword string) string {
 	return hex.EncodeToString(h.Sum([]byte(oPassword)))
 }
 
-func Register(user *models.UserInMysql) (ok bool, err error) {
+func Register(user *models.User) (ok bool, err error) {
 	//1.检查账号是否重复
 	username := user.Username
 	ok, err = CheckUserExist(username)
@@ -47,7 +47,7 @@ func Register(user *models.UserInMysql) (ok bool, err error) {
 	userPassword := encryptPassword(user.Password)
 	user.Password = userPassword
 	//3.数据入库
-	if err := db.Create(&models.UserSql{User: models.User{UserId: user.UserId, Username: user.Username, Password: user.Password}}).Error; err != nil {
+	if err := db.Create(&models.UserSql{User: *user}).Error; err != nil {
 		return false, err
 	}
 	return ok, err
