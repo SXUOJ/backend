@@ -11,6 +11,7 @@ import (
 func Register(user *models.User) (string, error) {
 	//生成userID
 	userId, err := uuid.Getuuid()
+	user.UserId = userId
 	//入库
 	ok, err := dao.Register(user)
 	if !ok {
