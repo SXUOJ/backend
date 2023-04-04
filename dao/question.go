@@ -27,7 +27,7 @@ func GetQuestionList(page int, amount int, uid string) (*[]models.QueList, error
 	*/
 	result := db.Model(&models.QuestionSql{}).
 		Select("question_sqls.*, ac_sqls.*").
-		Joins(fmt.Sprintf("LEFT JOIN ac_sqls ON question_sqls.question_id = ac_sqls.question_id AND ac_sqls.user_id=\"%s\" AND ac_sqls.if_ac=1", uid)).
+		Joins(fmt.Sprintf("LEFT JOIN ac_sqls ON question_sqls.question_id = ac_sqls.question_id AND ac_sqls.user_id='%s' AND ac_sqls.if_ac=1", uid)).
 		Limit(amount).
 		Offset(offset).
 		Scan(&questionList)
