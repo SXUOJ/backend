@@ -26,14 +26,23 @@ func GetQuestionDetail(Qid string) (que *models.Question, err error) {
 	return que, nil
 }
 
-func GetQuestionList(page int, amount int, uid string) (data *[]models.QueList, err error) {
+func GetQuestionList(page int, amount int, uid string) (data *[]models.QueList, nums int, err error) {
 	//查库
-	data, err = dao.GetQuestionList(page, amount, uid)
+	data, nums, err = dao.GetQuestionList(page, amount, uid)
 	if err != nil {
 		zap.L().Error("dao.GetQuestionList(page, amount) err ", zap.Error(err))
-		return nil, err
+		return nil, 0, err
 	}
-	return data, nil
+	return data, nums, nil
+}
+
+func GetSearchList(keyword string, amount int, page int, uid string) (data *[]models.QueList, nums int, err error) {
+	data, nums, err = dao.GetSearchList(keyword, page, amount, uid)
+	if err != nil {
+		zap.L().Error("dao.GetQuestionList(page, amount) err ", zap.Error(err))
+		return nil, 0, err
+	}
+	return data, nums, nil
 }
 
 func CreateQuestion(que models.Question) error {

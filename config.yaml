@@ -3,7 +3,7 @@ app:
   mode: "dev"
   port: 8081
   TokenExpireDuration: 720 //小时
-  server: "127.0.0.1"
+  server: "127.0.0.1:8081"
 
 log:
   level: "debug"

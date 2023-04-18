@@ -60,7 +60,7 @@ func GetQuestionList(c *gin.Context) {
 		return
 	}
 	//逻辑层处理
-	data, err := logic.GetQuestionList(Page, Amount, uid.(string))
+	data, nums, err := logic.GetQuestionList(Page, Amount, uid.(string))
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": 404,
@@ -70,9 +70,10 @@ func GetQuestionList(c *gin.Context) {
 	}
 	//返回响应
 	c.JSON(http.StatusOK, gin.H{
-		"code":          202,
+		"code":          200,
 		"msg":           "ok",
 		"question_list": data,
+		"amount":        nums,
 	})
 	return
 }
@@ -183,4 +184,39 @@ func DelQuestion(c *gin.Context) {
 		"code": 200,
 		"msg":  "ok",
 	})
+}
+
+func GetSearch(c *gin.Context) {
+	keyword := c.Query("keyword")
+	page := c.Query("page")
+	amount := c.Query("amount")
+	Page, err := strconv.Atoi(page)
+	Amount, err := strconv.Atoi(amount)
+	uid, ok := c.Get("user_id")
+	fmt.Println(uid)
+	if !ok {
+		zap.L().Error(" GetQuestionList 转化失败", zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"code": 404,
+			"msg":  zap.Error(err),
+		})
+		return
+	}
+	data, nums, err := logic.GetSearchList(keyword, Amount, Page, uid.(string))
+	if err != nil {
+		zap.L().Error(" GetSearch 转化失败", zap.Error(err))
+		c.JSON(http.StatusOK, gin.H{
+			"code": 404,
+			"msg":  zap.Error(err),
+		})
+		return
+	}
+	//返回响应
+	c.JSON(http.StatusOK, gin.H{
+		"code":          200,
+		"msg":           "ok",
+		"question_list": data,
+		"amount":        nums,
+	})
+	return
 }
