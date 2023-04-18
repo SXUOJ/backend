@@ -193,7 +193,6 @@ func GetSearch(c *gin.Context) {
 	Page, err := strconv.Atoi(page)
 	Amount, err := strconv.Atoi(amount)
 	uid, ok := c.Get("user_id")
-	fmt.Println(uid)
 	if !ok {
 		zap.L().Error(" GetQuestionList 转化失败", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{

@@ -26,17 +26,17 @@ func GetQuestionDetail(Qid string) (que *models.Question, err error) {
 	return que, nil
 }
 
-func GetQuestionList(page int, amount int, uid string) (data *[]models.QueList, nums int, err error) {
+func GetQuestionList(page int, amount int, uid string) (data *[]models.QueList, count int64, err error) {
 	//查库
-	data, nums, err = dao.GetQuestionList(page, amount, uid)
+	data, count, err = dao.GetQuestionList(page, amount, uid)
 	if err != nil {
 		zap.L().Error("dao.GetQuestionList(page, amount) err ", zap.Error(err))
 		return nil, 0, err
 	}
-	return data, nums, nil
+	return data, count, nil
 }
 
-func GetSearchList(keyword string, amount int, page int, uid string) (data *[]models.QueList, nums int, err error) {
+func GetSearchList(keyword string, amount int, page int, uid string) (data *[]models.QueList, nums int64, err error) {
 	data, nums, err = dao.GetSearchList(keyword, page, amount, uid)
 	if err != nil {
 		zap.L().Error("dao.GetQuestionList(page, amount) err ", zap.Error(err))
@@ -151,9 +151,9 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 	err = dao.InsertStatus(Result)
 	if Result.IfAC == 1 {
 		dao.InsertAc(models.Ac{
-			UserID:     code.UserID,
+			UserID:       code.UserID,
 			AcQuestionID: code.QuestionID,
-			IfAC:       1,
+			IfAC:         1,
 		})
 	}
 	if err != nil {

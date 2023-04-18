@@ -14,11 +14,24 @@ func GetQuestionDetail(qid string) (*models.Question, error) {
 	return &questionSql.Question, tx.Error
 }
 
+func GetSearchList(keyword string, page int, amount int, uid string) (*[]models.QueList, int64, error) {
+	var (
+		searchQuestionList []models.QueList
+		offset             = (page - 1) * amount
+		count              int64
+	)
+
+	res := db.Where("title like ?", "%"+keyword+"%").Limit(amount).Offset(offset).Find(&searchQuestionList).Offset(-1).Limit(-1).Count(&count)
+
+	return &searchQuestionList, count, res.Error
+}
+
 // 获取问题列表 page是页号 amount是每页数量 并且 获取每个题目是否ac
-func GetQuestionList(page int, amount int, uid string) (*[]models.QueList, int, error) {
+func GetQuestionList(page int, amount int, uid string) (*[]models.QueList, int64, error) {
 	var (
 		offset       = (page - 1) * amount
 		questionList []models.QueList
+		count        int64
 	)
 	/* SELECT question_sqls.*,ac_sqls.*
 		  FROM question_sqls
@@ -30,28 +43,8 @@ func GetQuestionList(page int, amount int, uid string) (*[]models.QueList, int, 
 		Joins(fmt.Sprintf("LEFT JOIN ac_sqls ON question_sqls.question_id = ac_sqls.ac_question_id AND ac_sqls.user_id='%s' AND ac_sqls.if_ac=1", uid)).
 		Limit(amount).
 		Offset(offset).
-		Scan(&questionList)
-	return &questionList, nums, result.Error
-}
-
-// 获取查询问题列表 page是页号 amount是每页数量 并且 获取每个题目是否ac
-func GetSearchList(keyword string, page int, amount int, uid string) (*[]models.QueList, int, error) {
-	var (
-		offset       = (page - 1) * amount
-		questionList []models.QueList
-	)
-	/* SELECT question_sqls.*,ac_sqls.*
-		  FROM question_sqls
-	 	  	LEFT JOIN ac_sqls
-			  ON question_sqls.question_id = ac_sqls.question_id AND ac_sqls.user_id=uid AND ac_sqls.if_ac=1;
-	*/
-	result := db.Model(&models.QuestionSql{}).
-		Select("question_sqls.*, ac_sqls.*").
-		Joins(fmt.Sprintf("LEFT JOIN ac_sqls ON question_sqls.question_id = ac_sqls.question_id AND ac_sqls.user_id='%s' AND ac_sqls.if_ac=1", uid)).
-		Limit(amount).
-		Offset(offset).
-		Scan(&questionList)
-	return &questionList, nums, result.Error
+		Scan(&questionList).Offset(-1).Limit(-1).Count(&count)
+	return &questionList, count, result.Error
 }
 
 // 插入问题

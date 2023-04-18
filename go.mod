@@ -16,7 +16,6 @@ require (
 	github.com/BurntSushi/toml v1.0.0 // indirect
 	github.com/google/go-cmp v0.5.8 // indirect
 	github.com/lib/pq v1.10.7
-	github.com/nareix/joy4 v0.0.0-20200507095837-05a4ffbb5369 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/gomega v1.18.1 // indirect
 	github.com/pkg/errors v0.9.1
