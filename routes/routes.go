@@ -33,6 +33,7 @@ func Setup() *gin.Engine {
 	quegroup.GET("/get/:question_id", controler.GetQuestionDetail)
 	quegroup.GET("/get_list", controler.GetQuestionList)
 	quegroup.POST("/submit", controler.PushQuestionJudge)
+	quegroup.GET("/search", controler.GetSearch)
 
 	//管理员组
 	admingroup := apigroup.Group("/admin")

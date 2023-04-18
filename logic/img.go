@@ -96,8 +96,14 @@ func Get(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
+	info, e := f.Stat()
+	if e != nil {
+		log.Println(e)
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
 	defer f.Close()
-	io.Copy(w, f)
+	http.ServeContent(w, r, "", info.ModTime(), f)
 }
 
 func getContentType(fileName string) (extension, contentType string) {
