@@ -21,7 +21,7 @@ func GetSearchList(keyword string, page int, amount int, uid string) (*[]models.
 		count              int64
 	)
 
-	res := db.Where("title like ?", "%"+keyword+"%").Limit(amount).Offset(offset).Find(&searchQuestionList).Offset(-1).Limit(-1).Count(&count)
+	res := db.Model(&models.QuestionSql{}).Where("title like ?", "%"+keyword+"%").Limit(amount).Offset(offset).Find(&searchQuestionList).Offset(-1).Limit(-1).Count(&count)
 
 	return &searchQuestionList, count, res.Error
 }
