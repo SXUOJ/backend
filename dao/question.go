@@ -26,8 +26,8 @@ func GetQuestionList(page int, amount int, uid string) (*[]models.QueList, error
 			  ON question_sqls.question_id = ac_sqls.question_id AND ac_sqls.user_id=uid AND ac_sqls.if_ac=1;
 	*/
 	result := db.Model(&models.QuestionSql{}).
-		Select("question_sqls.*, ac_sqls.*").
-		Joins(fmt.Sprintf("LEFT JOIN ac_sqls ON question_sqls.question_id = ac_sqls.question_id AND ac_sqls.user_id='%s' AND ac_sqls.if_ac=1", uid)).
+		Select("question_sqls.*, ac_sqls.user_id, ac_sqls.if_ac, ac_sqls.ac_question_id").
+		Joins(fmt.Sprintf("LEFT JOIN ac_sqls ON question_sqls.question_id = ac_sqls.ac_question_id AND ac_sqls.user_id='%s' AND ac_sqls.if_ac=1", uid)).
 		Limit(amount).
 		Offset(offset).
 		Scan(&questionList)
@@ -52,7 +52,7 @@ func DeleteQuestion(qid string) error {
 // 插入AC表
 func InsertAc(ac models.Ac) (err error) {
 	var ac1 models.AcSql
-	if err = db.Where("question_id = ?", ac.QuestionID).First(&ac1).Error; err != nil {
+	if err = db.Where("question_id = ?", ac.AcQuestionID).First(&ac1).Error; err != nil {
 		db.Create(&models.AcSql{Ac: ac})
 	}
 	return err

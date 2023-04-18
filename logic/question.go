@@ -143,7 +143,7 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 	if Result.IfAC == 1 {
 		dao.InsertAc(models.Ac{
 			UserID:     code.UserID,
-			QuestionID: code.QuestionID,
+			AcQuestionID: code.QuestionID,
 			IfAC:       1,
 		})
 	}
