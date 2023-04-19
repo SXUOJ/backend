@@ -18,7 +18,14 @@ func GetStatusListByQid(qid string, uid string, amount int, page int) ([]*models
 		results    []*models.Result
 	)
 
-	db.Limit(amount).Offset(offset).Find(&resultSqls)
+	res := db.Model(&models.ResultSql{}).
+		Where("question_id = ? AND user_id  = ?", qid, uid).
+		Limit(amount).
+		Offset(offset).
+		Find(&resultSqls)
+	if res.Error != nil {
+		return results, res.Error
+	}
 
 	for _, v := range resultSqls {
 		results = append(results, &v.Result)
