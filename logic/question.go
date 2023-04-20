@@ -72,6 +72,12 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 			break
 		}
 	}
+	defer func() { //recover写在调用方兜底
+		if r := recover(); r != nil {
+			fmt.Printf("我是PushJudg方法中捕获的panic异常的recover，异常信息为：%s\n", r)
+		}
+	}()
+
 	//2.构建grpc判题请求模型
 	//2.1 创建代码id
 	submitId, _ := uuid.Getuuid()
