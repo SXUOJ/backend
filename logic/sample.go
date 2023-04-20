@@ -86,7 +86,7 @@ func SPut(w http.ResponseWriter, r *http.Request) {
 
 			io.Copy(f, handle)
 
-			w.Write([]byte("http://" + viper.GetString("app.server") + ":" + viper.GetString("app.port") + "/api/admin/upload/sample/" + exten))
+			w.Write([]byte("http://" + viper.GetString("app.server") + "/api/admin/upload/sample/" + exten))
 
 		}
 

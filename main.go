@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 
-	"github.com/SXUOJ/backend/dao"
 	"github.com/SXUOJ/backend/logger"
 	"github.com/SXUOJ/backend/routes"
 	"github.com/SXUOJ/backend/settings"
@@ -26,11 +25,11 @@ func main() {
 	defer zap.L().Sync()
 	zap.L().Debug("zap init sucessed...")
 	//3.SQL
-	if err := dao.DBInit(); err != nil {
-		fmt.Printf("dao.Init() err:%v", err)
-		return
-	}
-	// defer mysql.Close()
+	//if err := dao.DBInit(); err != nil {
+	//	fmt.Printf("dao.Init() err:%v", err)
+	//	return
+	//}
+	//defer mysql.Close()
 	//4.注册路由
 	r := routes.Setup()
 	//5.启动服务
