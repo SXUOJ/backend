@@ -9,9 +9,9 @@ import (
 // 通过问题id获得问题详细
 func GetQuestionDetail(qid string) (*models.Question, error) {
 	var questionSql models.QuestionSql
-	tx := db.Where("question_id = ?", qid).First(&questionSql)
+	res := db.Where("question_id = ?", qid).First(&questionSql)
 	//返回
-	return &questionSql.Question, tx.Error
+	return &questionSql.Question, res.Error
 }
 
 func GetSearchList(keyword string, page int, amount int, uid string) (*[]models.QueList, int64, error) {
@@ -21,7 +21,20 @@ func GetSearchList(keyword string, page int, amount int, uid string) (*[]models.
 		count              int64
 	)
 
-	res := db.Model(&models.QuestionSql{}).Where("title like ?", "%"+keyword+"%").Limit(amount).Offset(offset).Find(&searchQuestionList).Offset(-1).Limit(-1).Count(&count)
+	res := db.Model(&models.QuestionSql{}).
+		Select("question_sqls.*, ac_sqls.user_id, ac_sqls.if_ac, ac_sqls.ac_question_id").
+		Where("question_sqls.title LIKE ?", "%"+keyword+"%").
+		Limit(amount).
+		Offset(offset).
+		Joins(fmt.Sprintf("LEFT JOIN ac_sqls ON question_sqls.question_id = ac_sqls.ac_question_id AND ac_sqls.user_id='%s' AND ac_sqls.if_ac=1", uid)).
+		Find(&searchQuestionList)
+	if res.Error != nil {
+		return &searchQuestionList, count, res.Error
+	}
+
+	res = db.Model(&models.QuestionSql{}).
+		Where("question_sqls.title LIKE ?", "%"+keyword+"%").
+		Count(&count)
 
 	return &searchQuestionList, count, res.Error
 }
@@ -38,13 +51,19 @@ func GetQuestionList(page int, amount int, uid string) (*[]models.QueList, int64
 	 	  	LEFT JOIN ac_sqls
 			  ON question_sqls.question_id = ac_sqls.question_id AND ac_sqls.user_id=uid AND ac_sqls.if_ac=1;
 	*/
-	result := db.Model(&models.QuestionSql{}).
+	res := db.Model(&models.QuestionSql{}).
 		Select("question_sqls.*, ac_sqls.user_id, ac_sqls.if_ac, ac_sqls.ac_question_id").
 		Joins(fmt.Sprintf("LEFT JOIN ac_sqls ON question_sqls.question_id = ac_sqls.ac_question_id AND ac_sqls.user_id='%s' AND ac_sqls.if_ac=1", uid)).
 		Limit(amount).
 		Offset(offset).
-		Scan(&questionList).Offset(-1).Limit(-1).Count(&count)
-	return &questionList, count, result.Error
+		Scan(&questionList)
+	if res.Error != nil {
+		return &questionList, count, res.Error
+	}
+
+	res = db.Model(&models.QuestionSql{}).
+		Count(&count)
+	return &questionList, count, res.Error
 }
 
 // 插入问题
