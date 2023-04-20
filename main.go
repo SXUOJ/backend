@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/SXUOJ/backend/dao"
-
 	"github.com/SXUOJ/backend/logger"
 	"github.com/SXUOJ/backend/routes"
 	"github.com/SXUOJ/backend/settings"
