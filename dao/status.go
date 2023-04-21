@@ -1,6 +1,8 @@
 package dao
 
-import "github.com/SXUOJ/backend/models"
+import (
+	"github.com/SXUOJ/backend/models"
+)
 
 func InsertStatus(result models.Result) error {
 	return db.Create(&models.ResultSql{Result: result}).Error
@@ -21,6 +23,7 @@ func GetStatusListByQid(qid string, uid string, amount int, page int) ([]*models
 
 	res := db.Model(&models.ResultSql{}).
 		Where("question_id = ? AND user_id  = ?", qid, uid).
+		Count(&count).
 		Limit(amount).
 		Offset(offset).
 		Find(&resultSqls)
@@ -28,12 +31,9 @@ func GetStatusListByQid(qid string, uid string, amount int, page int) ([]*models
 		return results, count, res.Error
 	}
 
-	for _, v := range resultSqls {
-		results = append(results, &v.Result)
+	for i := range resultSqls {
+		results = append(results, &resultSqls[i].Result)
 	}
-
-	res = db.Model(&models.ResultSql{}).
-		Count(&count)
 
 	return results, count, nil
 }
