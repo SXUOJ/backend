@@ -16,6 +16,7 @@ func GetStatusListByQid(qid string, uid string, amount int, page int) ([]*models
 		offset     = (page - 1) * amount
 		resultSqls []models.ResultSql
 		results    []*models.Result
+		count      int64
 	)
 
 	res := db.Model(&models.ResultSql{}).
@@ -24,14 +25,17 @@ func GetStatusListByQid(qid string, uid string, amount int, page int) ([]*models
 		Offset(offset).
 		Find(&resultSqls)
 	if res.Error != nil {
-		return results, res.Error
+		return results, count, res.Error
 	}
 
 	for _, v := range resultSqls {
 		results = append(results, &v.Result)
 	}
 
-	return results, nums, nil
+	res = db.Model(&models.ResultSql{}).
+		Count(&count)
+
+	return results, count, nil
 }
 
 // 通过提交id获取status详细
