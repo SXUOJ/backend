@@ -23,7 +23,7 @@ func GetStatusList(c *gin.Context) {
 	qid := c.Param("qid")
 	page := c.Query("page")
 	amount := c.Query("amount")
-	list, err := logic.GetStatusList(qid, uid.(string), amount, page)
+	list, nums, err := logic.GetStatusList(qid, uid.(string), amount, page)
 	if err != nil {
 		zap.L().Error("logic.GetStatusList err :", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
@@ -35,6 +35,7 @@ func GetStatusList(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code":        200,
 		"result_list": list,
+		"amount":      nums,
 	})
 }
 

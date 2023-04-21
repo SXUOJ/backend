@@ -1,6 +1,8 @@
 package dao
 
-import "github.com/SXUOJ/backend/models"
+import (
+	"github.com/SXUOJ/backend/models"
+)
 
 func InsertStatus(result models.Result) error {
 	return db.Create(&models.ResultSql{Result: result}).Error
@@ -11,27 +13,29 @@ func InsertStatus(result models.Result) error {
 // id: 	用户id
 // amount: 单页展示数量
 // page:页号
-func GetStatusListByQid(qid string, uid string, amount int, page int) ([]*models.Result, error) {
+func GetStatusListByQid(qid string, uid string, amount int, page int) ([]*models.Result, int64, error) {
 	var (
 		offset     = (page - 1) * amount
 		resultSqls []models.ResultSql
 		results    []*models.Result
+		count      int64
 	)
 
 	res := db.Model(&models.ResultSql{}).
 		Where("question_id = ? AND user_id  = ?", qid, uid).
+		Count(&count).
 		Limit(amount).
 		Offset(offset).
 		Find(&resultSqls)
 	if res.Error != nil {
-		return results, res.Error
+		return results, count, res.Error
 	}
 
-	for _, v := range resultSqls {
-		results = append(results, &v.Result)
+	for i := range resultSqls {
+		results = append(results, &resultSqls[i].Result)
 	}
 
-	return results, nil
+	return results, count, nil
 }
 
 // 通过提交id获取status详细
