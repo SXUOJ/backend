@@ -123,7 +123,7 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 	if err != nil {
 		return nil, err
 	}
-	var cstSh, _ = time.LoadLocation("Asia/Shanghai") //上海
+	var cstZone = time.FixedZone("CST", 8*3600) //上海
 	//3.创建结果结构体
 	Subid, _ := uuid.Getuuid()
 	Result := models.Result{
@@ -132,7 +132,7 @@ func PushJudge(code models.Submit) (*models.SubmitResult, error) {
 		UserID:     code.UserID,
 		Public:     code.Public,
 		Source:     code.Source,
-		Time:       time.Now().In(cstSh).Format("2006-01-02 15:04:05"),
+		Time:       time.Now().In(cstZone).Format("2006-01-02 15:04:05"),
 	}
 	Result.CodeType, _ = strconv.ParseUint(code.CodeType, 10, 64)
 	Result.IfAC = 1
