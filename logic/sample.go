@@ -99,10 +99,10 @@ func SPut(w http.ResponseWriter, r *http.Request) {
 	}
 	defer archive.Close()
 	for _, f := range archive.File {
-		filePath := dst
+		filePath := filepath.Join(dst, f.Name)
 
 		if !strings.HasPrefix(filePath, filepath.Clean(dst)+string(os.PathSeparator)) {
-			fmt.Println("invalid file path")
+			fmt.Printf("\ninvalid file path... filePath: %s,nowPath: %s ", filePath, filepath.Clean(dst)+string(os.PathSeparator))
 			return
 		}
 		if f.FileInfo().IsDir() {

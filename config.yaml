@@ -13,7 +13,7 @@ log:
   max_backups: 7
 
 db:
-  host: "postgres"
+  host: "oj.niuwx.cn"
   port: 5432
   user: "postgres"
   password: "postgres"
