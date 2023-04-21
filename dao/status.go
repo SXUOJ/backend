@@ -11,7 +11,7 @@ func InsertStatus(result models.Result) error {
 // id: 	用户id
 // amount: 单页展示数量
 // page:页号
-func GetStatusListByQid(qid string, uid string, amount int, page int) ([]*models.Result, error) {
+func GetStatusListByQid(qid string, uid string, amount int, page int) ([]*models.Result, int64, error) {
 	var (
 		offset     = (page - 1) * amount
 		resultSqls []models.ResultSql
@@ -31,7 +31,7 @@ func GetStatusListByQid(qid string, uid string, amount int, page int) ([]*models
 		results = append(results, &v.Result)
 	}
 
-	return results, nil
+	return results, nums, nil
 }
 
 // 通过提交id获取status详细
