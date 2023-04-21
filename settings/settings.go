@@ -16,7 +16,6 @@ func Init() (err error) {
 		// 读取配置信息失败
 		fmt.Printf("viper.ReadInConfig err: %v", err)
 		return err
-		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
 
 	// 监控配置文件变化
